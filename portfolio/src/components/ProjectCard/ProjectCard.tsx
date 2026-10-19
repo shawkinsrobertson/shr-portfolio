@@ -18,7 +18,7 @@ export function ProjectCard({title, tagline, description, stack, role, achieveme
                 {imageUrl && <img src={imageUrl} alt="" />}
                 <div className='title-and-tag'>
                     <h3>{title}</h3> 
-                    <p>{tagline}</p>
+                    <p className='tagline'>{tagline}</p>
                 </div>
                  
             </div>
@@ -27,8 +27,8 @@ export function ProjectCard({title, tagline, description, stack, role, achieveme
             {stack && stack.length > 0 && (
       <ul>{stack.map(tag => <li key={tag}>{tag}</li>)}</ul>
   )}
-            <p>{role}</p>
-            {achievement && <p>{achievement}</p>}
+            <p className='role'>{role}</p>
+            {achievement && <p className='achievement'>{achievement}</p>}
         </article>
     )
 }

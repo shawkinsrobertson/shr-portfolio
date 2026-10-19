@@ -7,7 +7,6 @@
     background-color: var(--bg);
     border-radius: 4px;
     box-shadow: var(--shadow);
-   
 }
 
 .project-head {
@@ -45,5 +44,24 @@
     font-weight: 500;
     color: var(--text-h);
     margin-bottom: 0;
-    
+}
+
+.tagline {
+    font-family: var(--text);
+    color: var(--text);
+    font-weight: 300;
+    font-size:small;
+}
+
+.role {
+    font-family: var(--mono);
+font-size: small;
+}
+
+.achievement {
+    font-size: smaller;
+    background-color: goldenrod;
+    color: var(--bg);
+    padding: 4px, 2px;
+    border-radius: 8px;
 }
