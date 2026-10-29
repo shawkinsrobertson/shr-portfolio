@@ -10,9 +10,9 @@ export interface HeroProps {
 
 export function Hero({name, title, tagline, ctaHref}: HeroProps) {
     return (<div className='hero'>
-        <h1>{name}</h1>
-        <h3>{title}</h3>
-        <p>{tagline}</p>
+        <h1 className='name'>{name}</h1>
+        <h3 className='title'>{title}</h3>
+        <p className='tagline'>{tagline}</p>
         <div className='cta-btns'>
             <a href='mailto:shrobertson@proton.me'>email me</a>
             <a href={ctaHref}>download my resume</a>

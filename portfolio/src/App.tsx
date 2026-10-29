@@ -1,5 +1,8 @@
 import { ProjectCard } from './components/ProjectCard/ProjectCard'
 import './App.css'
+import { Hero } from './components/Hero/Hero';
+import { Nav } from './components/Nav/Nav';
+import { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
 
 const projects = [
 	{
@@ -10,6 +13,7 @@ const projects = [
 	stack: ['react native', 'TypeScript', 'n8n', 'Claude API', 'Nightscout', 'XDrip+'],
 	role: 'Founder & Developer',
 	achievement: 'Top 100 at Kanz AI Hackathon July 2026',
+	imageUrl:'',
 	},
 	{
   id: 2,
@@ -19,6 +23,7 @@ const projects = [
 	stack: ['vite'],
 	role: 'Solo Developer',
 	achievement: '',
+	imageUrl:'',
 	},
 	{
   id: 3,
@@ -28,6 +33,7 @@ const projects = [
 	stack: ['react native', 'TypeScript'],
 	role: 'Solo Developer',
 	achievement: '',
+	imageUrl:'',
 	},
 	{
   id: 4, 
@@ -37,6 +43,7 @@ const projects = [
 	stack: [],
 	role: 'Solo Developer',
 	achievement: '',
+	imageUrl:'',
 	},
 	{
   id: 5, 
@@ -46,12 +53,27 @@ const projects = [
 	stack: [],
 	role: 'Solo Developer',
 	achievement: '',
+	imageUrl:'',
 	},
+];
+
+const links = [
+    { label: 'Home', href: '#hero' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Bio', href: '#bio' },
 ];
 
 function App() {
   return (
     <>
+	<Nav links={links} />
+	<section id="hero">
+	<Hero 
+		name='Seamus Robertson'
+		title='Software Engineer'
+		tagline='I build software that makes life easier.'
+		ctaHref='/resume.pdf'/>
+	</section>
       <section id="projects">
           {projects.map((project) =>(
             <ProjectCard

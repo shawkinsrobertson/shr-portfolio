@@ -4,14 +4,28 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    background-color: var(--bg);
     border-radius: 4px;
     box-shadow: var(--shadow);
+    transition: transform 0.3s ease-in-out;
+
 }
 
-.project-head {
+.card-content {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+}
+
+.glass {
+    background: var(--glass);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--border);
+}
+
+.card-head {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     gap: 12px;
 }
 
@@ -64,4 +78,32 @@ font-size: small;
     color: var(--bg);
     padding: 4px, 2px;
     border-radius: 8px;
+}
+
+.project-image {
+    visibility: hidden;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.project-card:hover {
+    transform: scale(1.05);
+}
+
+.project-card:hover .project-image {
+    visibility: visible;
+}
+
+.project-image-container {
+    visibility: hidden;
+    background-color: var(--text);
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.project-card:hover .project-image-container {
+    visibility: visible;
 }
