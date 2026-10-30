@@ -29,3 +29,33 @@ nav {
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
+
+.project-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: max-content;
+    z-index: 1000;
+    background-color: var(--bg);
+    list-style-type: none;
+    margin: 0;
+    padding: 8px 0;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.project-nav-item {
+    position: relative;
+}
+
+.project-nav-item:hover .project-list, .project-nav-item:focus-within .project-list {
+    display: block;
+}
+
+.project-list a {
+    display: block;
+    padding: 8px 16px;
+    color: var(--text-h);
+    text-decoration: none;
+}
