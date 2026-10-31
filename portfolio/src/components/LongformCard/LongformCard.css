@@ -1,0 +1,76 @@
+
+.longform-card {
+    max-width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    text-align: left;
+}
+
+.longform-card > hr {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid var(--border);
+}
+
+.longform-card p {
+    margin-bottom: 8px;
+}
+
+.longform-card-header {
+
+}
+
+.longform-title-and-award {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.longform-title {
+    font-size: xx-large;
+    font-weight: 700;
+}
+
+.longform-stats-list {
+    border: 1px solid var(--secondary);
+    border-radius: 4px;
+    padding: 12px;
+    box-shadow: inset 0 0 10px #e4e7e756;
+    max-width: 45%;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 8px;
+}
+   
+
+.longform-table-stack {
+    display: contents;
+}
+
+.longform-table-stack p:first-child {
+    grid-column: 1;
+    justify-self: end;
+}
+
+.longform-table-stack p:last-child {
+    grid-column: 2;
+    justify-self: start;
+}
+
+@media screen and (max-width: 600px) {
+    .longform-stats-list {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .longform-title-and-award {
+        flex-direction: column;
+        gap: 2px;
+    }
+}

@@ -18,8 +18,8 @@
 
 .glass {
     background: var(--glass);
-    backdrop-filter: blur(4px);
-    border: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    border: 2px solid #fff;
 }
 
 .card-head {

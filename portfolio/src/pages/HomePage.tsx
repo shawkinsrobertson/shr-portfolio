@@ -11,7 +11,7 @@ export function HomePage() {
 	<Hero 
 		name='Seamus Robertson'
 		title='Front-End Developer'
-		tagline='I build software that makes life easier.'
+		tagline='Building clever, silly, beautiful, accessible shit.'
 		ctaHref='/resume.pdf'/>
 	</section>
     <section id="projects">

@@ -31,7 +31,7 @@ nav {
 }
 
 .project-list {
-    display: none;
+    display: block;
     position: absolute;
     top: 100%;
     left: 0;
@@ -43,6 +43,15 @@ nav {
     padding: 8px 0;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition:
+        opacity 220ms ease-out,
+        transform 220ms ease-out,
+        visibility 0s linear 220ms;
+    
 }
 
 .project-nav-item {
@@ -50,7 +59,14 @@ nav {
 }
 
 .project-nav-item:hover .project-list, .project-nav-item:focus-within .project-list {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition:
+        opacity 220ms ease-out,
+        transform 220ms ease-out,
+        visibility 0s;
 }
 
 .project-list a {
@@ -58,4 +74,16 @@ nav {
     padding: 8px 16px;
     color: var(--text-h);
     text-decoration: none;
+     -webkit-text-stroke: 0 currentColor;
+    transition: -webkit-text-stroke-width 220ms ease;
+}
+
+.project-list a:hover, 
+.project-list a:focus-visible {
+    -webkit-text-stroke-width: 0.4px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .project-list {
+        transition: none;
+    }
 }
