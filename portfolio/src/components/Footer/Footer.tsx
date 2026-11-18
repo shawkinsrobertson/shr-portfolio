@@ -9,9 +9,11 @@ export interface FooterProps {
 export function Footer({date, name, socials}: FooterProps) {
     return (
         <footer className='footer'>
-            <p>`copyright ${date} ${name}`</p>
+            <p>Copyright {date} {name}</p>
             <ul>
-                <li></li> //map socials here once gathered
+                {socials.map((social) => (
+                    <li key={social}>{social}</li>
+                ))}
             </ul>
         </footer>
     )

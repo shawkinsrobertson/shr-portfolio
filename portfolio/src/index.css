@@ -2,7 +2,14 @@
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
-  --glass: rgba(255, 255, 255, 0.05);
+  --glass-bg: radial-gradient(ellipse 130% 90% at 50% 0%, rgba(28, 51, 233, 0.460) 0%, rgba(28, 51, 233, 0.380) 45%, rgba(28, 51, 233, 0.330) 100%);
+  --glass-filter: blur(18px) saturate(200%);
+  --glass-radius: 12px;
+  --glass-shadow: 0 17px 48px -12px rgba(0, 0, 0, 0.290), 0 1px 2px rgba(0, 0, 0, 0.145), 0 6px 24px rgba(28, 51, 233, 0.530), inset 0 0 11px rgba(255, 255, 255, 0.040), inset 0 4px 8px -4px rgba(0, 0, 0, 0.220), inset 0 -1px 1px rgba(0, 0, 0, 0.280), inset 0 1px 1px rgba(255, 255, 255, 0.280), inset 0 0 0 1px rgba(255, 255, 255, 0.180);
+  --glass-inner-rim: inset 0 0 0 0.5px rgba(255, 255, 255, 0.200), inset 0 1px 0 rgba(255, 255, 255, 0.280), inset 0 -1px 0 rgba(255, 255, 255, 0.175);
+  --glass-sheen: radial-gradient(ellipse 110% 65% at 50% -15%, rgba(255, 255, 255, 0.220) 0%, rgba(255, 255, 255, 0) 70%);
+  --glass-sheen-opacity: 1.00;
+  --glass-text: #ffffff;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
    --accent: #3752ff;
@@ -12,9 +19,9 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --sans: system-ui, 'Open Sans', Roboto, sans-serif;
+  --heading: system-ui, 'Istok Web', Roboto, sans-serif;
+  --mono: ui-monospace, 'Google Sans Code', monospace;
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
@@ -32,10 +39,17 @@
 }
 
 :root[data-theme='dark'] {
-  --text: #9ca3af;
+  --text: #d4d6d9;
   --text-h: #f3f4f6;
   --bg: #16171d;
-  --glass: rgba(47, 48, 58, 0.5);
+  --glass-bg: radial-gradient(ellipse 130% 90% at 50% 0%, rgba(10, 12, 20, 0.630) 0%, rgba(10, 12, 20, 0.550) 45%, rgba(10, 12, 20, 0.500) 100%);
+  --glass-filter: blur(26px) saturate(140%);
+  --glass-radius: 24px;
+  --glass-shadow: 0 20px 58px -15px rgba(0, 0, 0, 0.312), 0 1px 2px rgba(0, 0, 0, 0.156), inset 0 0 16px rgba(255, 255, 255, 0.040), inset 0 4px 8px -4px rgba(0, 0, 0, 0.220), inset 0 -1px 1px rgba(0, 0, 0, 0.280), inset 0 1px 1px rgba(255, 255, 255, 0.096), inset 0 0 0 1px rgba(255, 255, 255, 0.063);
+  --glass-inner-rim: inset 0 0 0 0.5px rgba(255, 255, 255, 0.070), inset 0 1px 0 rgba(255, 255, 255, 0.096), inset 0 -1px 0 rgba(255, 255, 255, 0.060);
+  --glass-sheen: radial-gradient(ellipse 110% 65% at 50% -15%, rgba(255, 255, 255, 0.121) 0%, rgba(255, 255, 255, 0) 70%);
+  --glass-sheen-opacity: 0.55;
+  --glass-text: #ffffff;
   --border: #2e303a;
   --code-bg: #1f2028;
   --accent: #3752ff;
@@ -47,6 +61,52 @@
 
   color-scheme: dark;
 }
+
+.glass,
+:root[data-theme='dark'] .project-card {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  color: var(--glass-text);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.glass::before,
+:root[data-theme='dark'] .project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--glass-sheen);
+  opacity: var(--glass-sheen-opacity);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass::after,
+:root[data-theme='dark'] .project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--glass-inner-rim);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass > *,
+:root[data-theme='dark'] .project-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+
 
 /*:root[data-theme='crystal'] {
   --text: #9ca3af;

@@ -37,7 +37,6 @@
     border-radius: 12px;
     font-weight: 500;
     color: var(--text-h);
-    background-color: var(--glass);
     transition: border-color 0.3s ease-in-out;
 }
 

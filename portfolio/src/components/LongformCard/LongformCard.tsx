@@ -1,5 +1,7 @@
 import {caseStudies} from '../../data/CaseStudies';
 import './LongformCard.css';
+import { LuAward } from "react-icons/lu";
+
 
 
 export const LongformCard = ({studyId}: {studyId: number}) => {
@@ -18,8 +20,6 @@ export const LongformCard = ({studyId}: {studyId: number}) => {
         { key: 'knownBugs', label: 'Known Bugs' },
         { key: 'whatIsNext', label: 'What Is Next' },
         { key: 'lessonsLearned', label: 'Lessons Learned' },
-        { key: 'implementation', label: 'Implementation' },
-        { key: 'currentStatus', label: 'Current Status' },
     ] as const;
 
     return (
@@ -27,11 +27,11 @@ export const LongformCard = ({studyId}: {studyId: number}) => {
             <div className="longform-card-header">
                 <div className='longform-title-and-award'>
                     <h2 className='longform-title'>{study.title}</h2>
-                    {study.achievement && <p className='longform-achieve'>{study.achievement}</p>}
+                    {study.achievement && <p className='longform-achieve'>{study.achievement} <LuAward className='ribbon'/></p>}
                 </div>
                 
                 <p className='longform-descript'>{study.description}</p>
-                <div className='longform-stats-list'>
+                <div className='longform-stats-list glass'>
                     <div className='longform-table-stack'>
                         <p className='longform-stack'><strong>Stack:</strong></p><p>{study.stack.join(', ')}</p>
                     </div>
@@ -41,6 +41,9 @@ export const LongformCard = ({studyId}: {studyId: number}) => {
                     <div className='longform-table-stack'>
                         <p className='longform-imp'><strong>Implementation:</strong></p><p>{study.longForm.implementation}</p>
                     </div>
+                    <div className='longform-table-stack'>
+                        <p className='longform-status'><strong>Current Status:</strong></p><p>{study.longForm.currentStatus}</p>
+                    </div>
                 </div> 
             </div>
              <hr/>
@@ -48,7 +51,11 @@ export const LongformCard = ({studyId}: {studyId: number}) => {
                 {longFormSections.map(({ key, label }) => {
                     const value = study.longForm[key];
 
-                    if (key === 'features') {
+                    if (key === 'features' || key === 'knownBugs' || key === 'whatIsNext') {
+                        if (!value || (Array.isArray(value) && value.length === 0)) {
+                            return null;
+                        }
+
                         return (
                             <section key={key} className={key}>
                                 <h3>{label}</h3>
@@ -57,14 +64,15 @@ export const LongformCard = ({studyId}: {studyId: number}) => {
                                 </ul>
                             </section>
                         );
-                    }
-
-                    return (
-                        <section key={key} className={key}>
-                            <h3>{label}</h3>
-                            {Array.isArray(value) ? value.map((p, index) => <p key={index}>{p}</p>) : <p>{value}</p>}
+                    } else if (value) {
+                        return (
+                            <section key={key} className={key}>
+                                <h3>{label}</h3>
+                                {Array.isArray(value) ? value.map((p, index) => <p key={index}>{p}</p>) : <p>{value}</p>}
                         </section>
-                    );
+                            );
+                        }
+                    return null;
                 })}
             </div>
         </div>

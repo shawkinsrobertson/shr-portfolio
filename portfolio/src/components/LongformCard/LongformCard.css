@@ -1,6 +1,7 @@
 
 .longform-card {
     max-width: 80%;
+    padding: 24px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -27,7 +28,7 @@
 
 .longform-title-and-award {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 12px;
 }
 
@@ -40,8 +41,7 @@
     border: 1px solid var(--secondary);
     border-radius: 4px;
     padding: 12px;
-    box-shadow: inset 0 0 10px #e4e7e756;
-    max-width: 45%;
+    box-shadow: 0 0 10px #e4e7e756;
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: 8px;
@@ -60,6 +60,11 @@
 .longform-table-stack p:last-child {
     grid-column: 2;
     justify-self: start;
+}
+
+.ribbon {
+    color: goldenrod;
+    font-size: 24px;
 }
 
 @media screen and (max-width: 600px) {

@@ -15,7 +15,7 @@ export function ThemeToggle() {
         <>
         <div className="theme-toggle">
             <label className="switch">
-                <button onClick={toggleTheme}>{theme === 'dark' ? <LuMoon /> : <LuSun />}</button>
+                <button className="liquid-glass" onClick={toggleTheme}>{theme === 'dark' ? <LuMoon /> : <LuSun />}</button>
             </label>
         </div>
         </>

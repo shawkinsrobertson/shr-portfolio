@@ -11,8 +11,7 @@ export function HomePage() {
 	<Hero 
 		name='Seamus Robertson'
 		title='Front-End Developer'
-		tagline='Building clever, silly, beautiful, accessible shit.'
-		ctaHref='/resume.pdf'/>
+		tagline='Building clever, silly, beautiful, accessible shit.' />
 	</section>
     <section id="projects">
           {caseStudies.map((study: (typeof caseStudies)[number]) =>(

@@ -13,7 +13,7 @@ export interface ProjectCardProps {
 
 export function ProjectCard({title, tagline, description, stack, role, achievement, imageUrl}: ProjectCardProps) {
     return (
-        <article className='project-card glass'>
+        <article className={`project-card`}>
             <div className='card-content'>
                 <div className='card-head'>
                     <div className='title-and-tag'>
@@ -29,7 +29,7 @@ export function ProjectCard({title, tagline, description, stack, role, achieveme
                 <p className='role'>{role}</p>
                 {achievement && <p className='achievement'>{achievement}</p>}
             </div>
-            {imageUrl? <div className='project-image-container'></div> : <img className='project-image' src={imageUrl} alt="" />}
+            {imageUrl && <div className='project-image-container'><img className='project-image' src={imageUrl} alt="" /></div>}
         </article>
     )
 }
