@@ -1,8 +1,15 @@
 import { isValidElement } from 'react';
+import feature01 from '../assets/project-img/feature-01.png';
+import feature02 from '../assets/project-img/feature-02.png';
+import feature03 from '../assets/project-img/feature-03.png';
+import feature04 from '../assets/project-img/feature-04.png';
+import feature05 from '../assets/project-img/feature-05.png';
+import feature06 from '../assets/project-img/feature-06.png';
 
 export const caseStudies = [
 	{
 		id: 1,
+		agentic: false,
 		title: 'Do Shit',
 		tagline: 'A vanilla JS to-do application',
 		description: 'Responsive web application that utilizes CRUD and local storage to allow users to create and organize tasks, lists, and projects.',
@@ -10,7 +17,7 @@ export const caseStudies = [
 		role: 'Solo Developer',
 		achievement: '',
 		platform: 'Web',
-		imageUrl: '',
+		imageUrl: feature01,
 		longForm: {
 			platform: 'Web',
 			implementation: `I'm responsible for planning, design, and building. This is my first hand coded application.`,
@@ -27,6 +34,7 @@ export const caseStudies = [
 	},
 	{
 		id: 2,
+		agentic: false,
 		title: '',
 		tagline: '',
 		description: '',
@@ -51,6 +59,7 @@ export const caseStudies = [
 	},
 	{
 		id: 3,
+		agentic: false,
 		title: '',
 		tagline: '',
 		description: '',
@@ -75,6 +84,7 @@ export const caseStudies = [
 	},
 	{
 		id: 4,
+		agentic: true,
 		title: 'Shelby',
 		tagline: 'A modern diabetes assistant for MDI',
 		description: 'An AI-integrated treatment logger and prediction engine for type 1 diabetes designed for MDI users. Built on oref0, the open-source algorithm closed-loop pump systems already trust, modified for fixed basal injections.',
@@ -82,7 +92,7 @@ export const caseStudies = [
 		role: 'Agentic SDLC',
 		achievement: 'Top 100 at Kanz AI Hackathon July 2026',
 		platform: 'Cross-Platform mobile (React/Expo)',
-		imageUrl: '',
+		imageUrl: feature02,
 		longForm: {
 			whatItIs: 'An open-source diabetes treatment application designed to offer flexible, continuous treatment between pump use and multiple daily injections.',
 			whatItSolves: 'Roughly a third of people with Type 1 diabetes use multiple daily injections (MDI) rather than pumps. Most predictive treatment tools are built for insulin pumps, creating a gap in care for those who do not use them or who wish to switch between the two treatment methods.',
@@ -118,13 +128,14 @@ export const caseStudies = [
 	},
 	{
 		id: 5,
+		agentic: true,
 		title: 'SimpleSet',
 		tagline: 'Turning static workout plans into trackable goals',
 		description: 'Create your own or import an existing plan from a document, spreadsheet, PDF, or Google Drive, and simpleSet turns it into a day-by-day log with PRs, streaks, and progress tracking.',
 		stack: ['React', 'TypeScript', 'Supabase'],
 		role: 'Agentic SDLC',
 		achievement: '',
-		imageUrl: '',
+		imageUrl: feature03,
 		longForm: {
 			platform: 'Mobile and Desktop via PWA architecture',
 			implementation: 'Agentic SDLC',
@@ -158,13 +169,14 @@ export const caseStudies = [
 	},
 	{
 		id: 6,
+		agentic: false,
 		title: 'Scream Recorder',
 		tagline: 'Making the Void a sharing space',
 		description: 'Record and share the screams of your life with friends on a community board. Like, comment, and sync screams with your Google calendar so you can remember them in context.',
 		stack: ['react native', 'TypeScript'],
 		role: 'Solo Developer',
 		achievement: '',
-		imageUrl: '',
+		imageUrl: feature04,
 		longForm: {
 			platform: '',
 			implementation: '',
@@ -181,13 +193,14 @@ export const caseStudies = [
 	},
 	{
 		id: 7,
+		agentic: true,
 		title: 'Scavenger Hunt',
 		tagline: 'Create, navigate, and track a scavenger hunt',
 		description: 'A mobile app that takes a user through a customized scavenger hunt. Originally built as a birthday gift, the app sports a 16-bit inspired retro theme.',
 		stack: [],
 		role: 'Agentic SDLC',
 		achievement: '',
-		imageUrl: '',
+		imageUrl: feature05,
 		longForm: {
 			platform: '',
 			implementation: '',
@@ -204,13 +217,14 @@ export const caseStudies = [
 	},
 	{
 		id: 8,
+		agentic: true,
 		title: 'No Guts No Glory',
 		tagline: 'A daily tracking and monitoring tool for gastritis',
 		description: 'Over 2 million people in the U.S. suffer from gastritis. No Guts No Glory lets users define, weight, and track stressors, symptoms, and recovery factors.',
 		stack: [],
 		role: 'Agentic SDLC',
 		achievement: '',
-		imageUrl: '',
+		imageUrl: feature06,
 		longForm: {
 			platform: 'Mobile (Android)',
 			implementation: 'ChatGPT (previous user logging history and planning), Claude Code',

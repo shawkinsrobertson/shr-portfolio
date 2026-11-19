@@ -1,2 +1,19 @@
 
+#projects-handcode, #projects-agentic {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
 
+.case-study-cards {
+    display: flex;
+    flex-wrap:wrap;
+}
+
+.case-study-card {
+    flex: 1 1 calc(33.333% - 16px);
+    margin: 8px;
+    min-width: 300px;
+    max-width: 400px;
+}

@@ -20,6 +20,7 @@ export const LongformCard = () => {
         { key: 'howItDoesIt', label: 'How It Does It' },
         { key: 'features', label: 'Features' },
         { key: 'whatIDid', label: 'What I Did' },
+        { key: 'implementation', label: 'Build Process' },
         { key: 'knownBugs', label: 'Known Bugs' },
         { key: 'whatIsNext', label: 'What Is Next' },
         { key: 'lessonsLearned', label: 'Lessons Learned' },
@@ -32,22 +33,23 @@ export const LongformCard = () => {
                     <h2 className='longform-title'>{study.title}</h2>
                     {study.achievement && <p className='longform-achieve'>{study.achievement} <LuAward className='ribbon'/></p>}
                 </div>
-                
                 <p className='longform-descript'>{study.description}</p>
-                <div className='longform-stats-list'>
-                    <div className='longform-table-stack'>
-                        <p className='longform-stack'><strong>Stack:</strong></p><p>{study.stack.join(', ')}</p>
+                <blockquote className='longform-callout'>
+                    <div className='longform-stack-list'>
+                        <div className='stack-group'>
+                            <p className='longform-stack'><strong>Stack:</strong></p><p>{study.stack.join(', ')}</p>
+                        </div>
+                        <div className='stack-group'>
+                            <p className='longform-platform'><strong>Platform:</strong></p><p>{study.platform}</p>
+                        </div>
+                        <div className='stack-group'>
+                            <p className='longform-status'><strong>Current Status:</strong></p><p>{study.longForm.currentStatus}</p>
+                        </div>
                     </div>
-                    <div className='longform-table-stack'>
-                          <p className='longform-platform'><strong>Platform:</strong></p><p>{study.platform}</p>
+                    <div className='longform-stats-image'>
+                        {study.imageUrl && <img className='longform-image' src={study.imageUrl} alt="" />}
                     </div>
-                    <div className='longform-table-stack'>
-                        <p className='longform-imp'><strong>Implementation:</strong></p><p>{study.longForm.implementation}</p>
-                    </div>
-                    <div className='longform-table-stack'>
-                        <p className='longform-status'><strong>Current Status:</strong></p><p>{study.longForm.currentStatus}</p>
-                    </div>
-                </div> 
+                </blockquote> 
             </div>
              <hr/>
             <div className="longform-card-body">

@@ -2,6 +2,7 @@ import './ProjectCard.css'
 import { Link } from 'react-router'
 
 export interface ProjectCardProps {
+    className?: string
     title: string
     tagline: string
     description: string
@@ -12,9 +13,9 @@ export interface ProjectCardProps {
     achievement?: string
 }
 
-export function ProjectCard({title, tagline, description, stack, role, achievement, imageUrl, href}: ProjectCardProps) {
+export function ProjectCard({className, title, tagline, description, stack, role, achievement, imageUrl, href}: ProjectCardProps) {
     return (
-        <Link className={`project-card`} to={href || '#'}>
+        <Link className={`project-card ${className ?? ''}`} to={href || '#'}>
             <div className='card-content'>
                 <div className='card-head'>
                     <div className='title-and-tag'>
