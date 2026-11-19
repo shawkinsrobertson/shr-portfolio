@@ -1,6 +1,7 @@
 import './Nav.css'
 import {ThemeToggle} from '../ThemeToggle/ThemeToggle'
 import { Link } from 'react-router'
+import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../../data/CaseStudies'
 
 
 
@@ -12,10 +13,11 @@ export function Nav() {
                     <li><Link to="/">Home</Link></li>
                     <li className='project-nav-item'><Link to="#">Projects</Link>
                         <ul className='project-list'>
-                            <li><Link to="/pages/shelby">Shelby</Link></li>
-                            <li><Link to="/pages/simpleset">SimpleSet</Link></li>
-                            <li><Link to="/pages/nogutsnoglory">No Guts No Glory</Link></li>
-                            <li><Link to="/pages/scavengerhunt">Scavenger Hunt</Link></li>
+                            {caseStudies.filter(hasLongFormContent).map((study) => (
+                                <li key={study.id}>
+                                    <Link to={`/pages/${getCaseStudySlug(study.title)}`}>{study.title}</Link>
+                                </li>
+                            ))}
                         </ul>
                     </li>
                     <li><Link to="/pages/bio">Bio</Link></li>

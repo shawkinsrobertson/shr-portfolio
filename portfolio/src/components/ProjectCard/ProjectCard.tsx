@@ -1,4 +1,5 @@
 import './ProjectCard.css'
+import { Link } from 'react-router'
 
 export interface ProjectCardProps {
     title: string
@@ -11,9 +12,9 @@ export interface ProjectCardProps {
     achievement?: string
 }
 
-export function ProjectCard({title, tagline, description, stack, role, achievement, imageUrl}: ProjectCardProps) {
+export function ProjectCard({title, tagline, description, stack, role, achievement, imageUrl, href}: ProjectCardProps) {
     return (
-        <article className={`project-card`}>
+        <Link className={`project-card`} to={href || '#'}>
             <div className='card-content'>
                 <div className='card-head'>
                     <div className='title-and-tag'>
@@ -30,6 +31,6 @@ export function ProjectCard({title, tagline, description, stack, role, achieveme
                 {achievement && <p className='achievement'>{achievement}</p>}
             </div>
             {imageUrl && <div className='project-image-container'><img className='project-image' src={imageUrl} alt="" /></div>}
-        </article>
+        </Link>
     )
 }

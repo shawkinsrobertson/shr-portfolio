@@ -1,6 +1,6 @@
 import { Hero } from '../components/Hero/Hero'
 import { ProjectCard } from '../components/ProjectCard/ProjectCard'
-import { caseStudies } from '../data/CaseStudies'
+import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../data/CaseStudies'
 
 
 
@@ -14,7 +14,9 @@ export function HomePage() {
 		tagline='Building clever, silly, beautiful, accessible shit.' />
 	</section>
     <section id="projects">
-          {caseStudies.map((study: (typeof caseStudies)[number]) =>(
+          {caseStudies
+          .filter(hasLongFormContent)
+          .map((study: (typeof caseStudies)[number]) =>(
             <ProjectCard
                key={study.id}
                title={study.title}
@@ -22,7 +24,7 @@ export function HomePage() {
                description={study.description}
                stack={study.stack}
                role={study.role}
-               //href={}
+               href={`/pages/${getCaseStudySlug(study.title)}`}
                achievement={study.achievement}  />
           ))}
       </section>

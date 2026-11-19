@@ -1,11 +1,85 @@
+import { isValidElement } from 'react';
+
 export const caseStudies = [
 	{
 		id: 1,
+		title: 'Do Shit',
+		tagline: 'A vanilla JS to-do application',
+		description: 'Responsive web application that utilizes CRUD and local storage to allow users to create and organize tasks, lists, and projects.',
+		stack: ['HTML', 'CSS', 'JavaScript'],
+		role: 'Solo Developer',
+		achievement: '',
+		platform: 'Web',
+		imageUrl: '',
+		longForm: {
+			platform: 'Web',
+			implementation: `I'm responsible for planning, design, and building. This is my first hand coded application.`,
+			currentStatus: 'v1 complete',
+			whatItIs: 'Responsive web application that utilizes CRUD and local storage to allow users to create and organize tasks, lists, and projects.',
+			whatItSolves: '',
+			howItDoesIt: '',
+			features: ['Dedicated project and list creation', 'Search across projects, tasks, and lists', 'Sort A-Z and due date: first-last', 'Subtasks'],
+			whatIDid: [],
+			knownBugs: [],
+			whatIsNext: [],
+			lessonsLearned: '',
+		},
+	},
+	{
+		id: 2,
+		title: '',
+		tagline: '',
+		description: '',
+		stack: [],
+		role: '',
+		achievement: '',
+		platform: '',
+		imageUrl: '',
+		longForm: {
+			platform: '',
+			implementation: '',
+			currentStatus: '',
+			whatItIs: '',
+			whatItSolves: '',
+			howItDoesIt: '',
+			features: [],
+			whatIDid: [],
+			knownBugs: [],
+			whatIsNext: [],
+			lessonsLearned: '',
+		},
+	},
+	{
+		id: 3,
+		title: '',
+		tagline: '',
+		description: '',
+		stack: [],
+		role: '',
+		achievement: '',
+		platform: '',
+		imageUrl: '',
+		longForm: {
+			platform: '',
+			implementation: '',
+			currentStatus: '',
+			whatItIs: '',
+			whatItSolves: '',
+			howItDoesIt: '',
+			features: [],
+			whatIDid: [],
+			knownBugs: [],
+			whatIsNext: [],
+			lessonsLearned: '',
+		},
+	},
+	{
+		id: 4,
 		title: 'Shelby',
 		tagline: 'A modern diabetes assistant for MDI',
 		description: 'An AI-integrated treatment logger and prediction engine for type 1 diabetes designed for MDI users. Built on oref0, the open-source algorithm closed-loop pump systems already trust, modified for fixed basal injections.',
 		stack: ['react native', 'TypeScript', 'n8n', 'Claude API', 'Nightscout', 'XDrip+'],
-		role: 'Founder & Developer',
+		role: 'Agentic SDLC',
 		achievement: 'Top 100 at Kanz AI Hackathon July 2026',
 		platform: 'Cross-Platform mobile (React/Expo)',
 		imageUrl: '',
@@ -43,17 +117,17 @@ export const caseStudies = [
 		},
 	},
 	{
-		id: 2,
+		id: 5,
 		title: 'SimpleSet',
 		tagline: 'Turning static workout plans into trackable goals',
 		description: 'Create your own or import an existing plan from a document, spreadsheet, PDF, or Google Drive, and simpleSet turns it into a day-by-day log with PRs, streaks, and progress tracking.',
 		stack: ['React', 'TypeScript', 'Supabase'],
-		role: 'Product concept and UI design, review and testing',
+		role: 'Agentic SDLC',
 		achievement: '',
 		imageUrl: '',
 		longForm: {
 			platform: 'Mobile and Desktop via PWA architecture',
-			implementation: 'Claude Code',
+			implementation: 'Agentic SDLC',
 			currentStatus: '',
 			whatItIs: 'SimpleSet is a progressive web application that parses static workout plans in .pdf, .docx, .csv, .xlsx, and .html formats and turns them into a trackable interface with PRs, completion streaks, and per-exercise metrics.',
 			whatItSolves: 'SimpleSet takes the tedious effort out of transferring a workout plan bought online into a training app. It also provides a platform-agnostic interface for tracking plans and programs that do not natively provide tracking, without charging a monthly subscription.',
@@ -83,7 +157,7 @@ export const caseStudies = [
 		},
 	},
 	{
-		id: 3,
+		id: 6,
 		title: 'Scream Recorder',
 		tagline: 'Making the Void a sharing space',
 		description: 'Record and share the screams of your life with friends on a community board. Like, comment, and sync screams with your Google calendar so you can remember them in context.',
@@ -106,12 +180,12 @@ export const caseStudies = [
 		},
 	},
 	{
-		id: 4,
+		id: 7,
 		title: 'Scavenger Hunt',
 		tagline: 'Create, navigate, and track a scavenger hunt',
 		description: 'A mobile app that takes a user through a customized scavenger hunt. Originally built as a birthday gift, the app sports a 16-bit inspired retro theme.',
 		stack: [],
-		role: 'Solo Developer',
+		role: 'Agentic SDLC',
 		achievement: '',
 		imageUrl: '',
 		longForm: {
@@ -129,12 +203,12 @@ export const caseStudies = [
 		},
 	},
 	{
-		id: 5,
+		id: 8,
 		title: 'No Guts No Glory',
 		tagline: 'A daily tracking and monitoring tool for gastritis',
 		description: 'Over 2 million people in the U.S. suffer from gastritis. No Guts No Glory lets users define, weight, and track stressors, symptoms, and recovery factors.',
 		stack: [],
-		role: 'Solo Developer',
+		role: 'Agentic SDLC',
 		achievement: '',
 		imageUrl: '',
 		longForm: {
@@ -164,3 +238,27 @@ export const caseStudies = [
 		},
 	},
 ];
+
+export function getCaseStudySlug(title: string) {
+	return title
+		.trim()
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/^-|-$/g, '');
+}
+
+export function hasLongFormContent(study: (typeof caseStudies)[number]) {
+	const hasContent = (value: unknown): boolean => {
+		if (typeof value === 'string') {
+			return value.trim() !== '';
+		}
+
+		if (Array.isArray(value)) {
+			return value.some(hasContent);
+		}
+
+		return isValidElement(value);
+	};
+
+	return Object.values(study.longForm).some(hasContent);
+}

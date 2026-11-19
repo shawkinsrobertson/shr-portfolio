@@ -1,11 +1,14 @@
 import {caseStudies} from '../../data/CaseStudies';
+import { getCaseStudySlug } from '../../data/CaseStudies';
+import { useParams } from 'react-router';
 import './LongformCard.css';
 import { LuAward } from "react-icons/lu";
 
 
 
-export const LongformCard = ({studyId}: {studyId: number}) => {
-    const study = caseStudies.find((s) => s.id === studyId);
+export const LongformCard = () => {
+    const { slug } = useParams();
+    const study = caseStudies.find((s) => getCaseStudySlug(s.title) === slug);
 
     if (!study) {
         return <div>Case study not found</div>;
@@ -31,7 +34,7 @@ export const LongformCard = ({studyId}: {studyId: number}) => {
                 </div>
                 
                 <p className='longform-descript'>{study.description}</p>
-                <div className='longform-stats-list glass'>
+                <div className='longform-stats-list'>
                     <div className='longform-table-stack'>
                         <p className='longform-stack'><strong>Stack:</strong></p><p>{study.stack.join(', ')}</p>
                     </div>
