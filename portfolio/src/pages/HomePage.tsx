@@ -15,7 +15,7 @@ export function HomePage() {
 		tagline='Building clever, silly, beautiful, accessible shit.' />
 	</section>
     <section id="projects-handcode">
-        <h3>Hand Coded</h3>
+        <h2>Hand Coded</h2>
         <div className='case-study-cards'>
           {caseStudies
           .filter(study => hasLongFormContent(study) && study.agentic === false)
@@ -33,7 +33,7 @@ export function HomePage() {
         </div>
       </section>
       <section id='projects-agentic'>
-        <h3>Agentic</h3>
+        <h2>Agentic</h2>
         <div className='case-study-cards'>
           {caseStudies
           .filter(study => hasLongFormContent(study) && study.agentic === true)
