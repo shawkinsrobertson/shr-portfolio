@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import './LongformCard.css';
 import { LuAward } from "react-icons/lu";
 
+const mdxContent = import.meta.glob<{ default: React.ComponentType }>('../../content/*.mdx', { eager: true });
+
 
 
 export const LongformCard = () => {
@@ -25,6 +27,8 @@ export const LongformCard = () => {
         { key: 'whatIsNext', label: 'What Is Next' },
         { key: 'lessonsLearned', label: 'Lessons Learned' },
     ] as const;
+
+    const MdxBody = mdxContent[`../../content/${slug}.mdx`]?.default;
 
     return (
         <div className="longform-card">
@@ -53,7 +57,7 @@ export const LongformCard = () => {
             </div>
              <hr/>
             <div className="longform-card-body">
-                {longFormSections.map(({ key, label }) => {
+                {MdxBody ? <MdxBody /> : longFormSections.map(({ key, label }) => {
                     const value = study.longForm[key];
 
                     if (key === 'features' || key === 'knownBugs' || key === 'whatIsNext') {
