@@ -11,7 +11,7 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
-button {
+.theme-toggle button {
     display: flex;
     align-items: center;
     color: var(--text);
@@ -23,7 +23,12 @@ button {
     transition: ease-in-out 0.3s;
 }
 
-button:hover {
-    transform: scale(1.05);
+.theme-toggle button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .theme-toggle button:hover {
+        transform: scale(1.05);
+    }
 }

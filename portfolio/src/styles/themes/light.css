@@ -1,0 +1,20 @@
+/* Light is the default when no data-theme is set. Values: Figma "Light Theme", with
+   --text-secondary darkened from #8D8D8D (3.21:1) to pass AA. Checked by contrast.test.ts. */
+:root,
+:root[data-theme='light'] {
+  --bg: #FBFBFB;
+  --text-primary: #00052F;
+  --text-secondary: #6A6A6A;
+  --accent-fill: #0019D2;
+  --accent-contrast: #FBFBFB;
+  --accent-text: #0019D2;
+  --focus: #0019D2;
+  --accent-bg: rgba(0, 25, 210, 0.1);
+  --accent-border: rgba(0, 25, 210, 0.5);
+  --border: #E0E0E0;
+  --code-bg: #EFEFEF;
+  --social-bg: rgba(239, 239, 239, 0.5);
+  --shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  color-scheme: light;
+}
