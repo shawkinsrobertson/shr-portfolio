@@ -27,7 +27,7 @@ export function HomePage() {
                description={study.description}
                stack={study.stack}
                role={study.role}
-               href={`/pages/${getCaseStudySlug(study.title)}`}
+               href={`/projects/${getCaseStudySlug(study.title)}`}
                achievement={study.achievement}  />
           ))}
         </div>
@@ -45,7 +45,7 @@ export function HomePage() {
                description={study.description}
                stack={study.stack}
                role={study.role}
-               href={`/pages/${getCaseStudySlug(study.title)}`}
+               href={`/projects/${getCaseStudySlug(study.title)}`}
                achievement={study.achievement}  />
           ))}
         </div>

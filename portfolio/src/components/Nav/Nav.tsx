@@ -15,12 +15,12 @@ export function Nav() {
                         <ul className='project-list'>
                             {caseStudies.filter(hasLongFormContent).map((study) => (
                                 <li key={study.id}>
-                                    <Link to={`/pages/${getCaseStudySlug(study.title)}`}>{study.title}</Link>
+                                    <Link to={`/projects/${getCaseStudySlug(study.title)}`}>{study.title}</Link>
                                 </li>
                             ))}
                         </ul>
                     </li>
-                    <li><Link to="/pages/bio">Bio</Link></li>
+                    <li><Link to="/bio">Bio</Link></li>
                 </ul>
                 <ThemeToggle />
             </nav>
