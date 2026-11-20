@@ -20,12 +20,7 @@ export const caseStudies = [
 		imageUrl: feature01,
 		longForm: {
 			platform: 'Web',
-			implementation: `I'm responsible for planning, design, and building. This is my first hand coded application.`,
 			currentStatus: 'v1 complete',
-			whatItIs: 'Responsive web application that utilizes CRUD and local storage to allow users to create and organize tasks, lists, and projects.',
-			whatItSolves: '',
-			howItDoesIt: '',
-			features: ['Dedicated project and list creation', 'Search across projects, tasks, and lists', 'Sort A-Z and due date: first-last', 'Subtasks'],
 			whatIDid: [],
 			knownBugs: [],
 			whatIsNext: [],
