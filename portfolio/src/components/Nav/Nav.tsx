@@ -1,5 +1,5 @@
 import './Nav.css'
-import {ThemeToggle} from '../ThemeToggle/ThemeToggle'
+import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher'
 import { Link } from 'react-router'
 import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../../data/CaseStudies'
 
@@ -22,7 +22,7 @@ export function Nav() {
                     </li>
                     <li><Link to="/bio">Bio</Link></li>
                 </ul>
-                <ThemeToggle />
+                <ThemeSwitcher />
             </nav>
         </header>
     )
