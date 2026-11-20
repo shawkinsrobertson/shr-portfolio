@@ -1,6 +1,6 @@
 # SPEC.md: Requirements and Design Spec
 > Created: 2026-11-20
-> Source of intent: `intent/intent.md` (commit `d613bde`)
+> Source of intent: `Claude/intent.md` (commit `d613bde`)
 > Design source: Figma "FED-Portfolio" (`cWG4R8JJebjgilBEJngZ7z`, page "Quick Design Draft")
 > Status: Draft for review. Items marked **[OPEN]** need a decision. Items marked **[PROPOSED]** are my recommendation where the Figma or INTENT is silent.
 
