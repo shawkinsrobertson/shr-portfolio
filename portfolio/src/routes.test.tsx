@@ -23,12 +23,13 @@ describe('routes', () => {
 		expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
 	});
 
-	it('renders a case study at /projects/:slug', () => {
+	it('renders a case study at /projects/:slug, including its MDX body', async () => {
 		renderAt('/projects/todo-app');
 		expect(screen.getByRole('heading', { name: 'Do Shit' })).toBeInTheDocument();
+		expect(await screen.findByRole('heading', { name: 'What It Is' })).toBeInTheDocument();
 	});
 
-	it.each(['/nope', '/projects/does-not-exist', '/projects/do-shit', '/pages/bio'])('shows the 404 page at %s', (path) => {
+	it.each(['/nope', '/projects/does-not-exist', '/projects/do-shit', '/projects/scream-recorder', '/projects/no-guts-no-glory', '/pages/bio'])('shows the 404 page at %s', (path) => {
 		renderAt(path);
 
 		expect(screen.getByRole('heading', { level: 1, name: /page not found/i })).toBeInTheDocument();

@@ -3,7 +3,7 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router'
 import { LuChevronDown } from 'react-icons/lu'
 import { ThemeSwitcher } from '../ThemeSwitcher/ThemeSwitcher'
-import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../../data/CaseStudies'
+import { getPublishedProjects, projectPath } from '../../lib/projects'
 
 export function Nav() {
     const { pathname } = useLocation();
@@ -69,9 +69,9 @@ export function Nav() {
                             Projects <LuChevronDown aria-hidden="true" />
                         </button>
                         <ul id={listId} className='project-list' hidden={!open}>
-                            {caseStudies.filter(hasLongFormContent).map((study) => (
-                                <li key={study.id}>
-                                    <NavLink to={`/projects/${getCaseStudySlug(study.title)}`}>{study.title}</NavLink>
+                            {getPublishedProjects().map((project) => (
+                                <li key={project.slug}>
+                                    <NavLink to={projectPath(project.slug)}>{project.title}</NavLink>
                                 </li>
                             ))}
                         </ul>

@@ -1,11 +1,13 @@
 import { Hero } from '../components/Hero/Hero'
 import { ProjectCard } from '../components/ProjectCard/ProjectCard'
-import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../data/CaseStudies'
+import { getPublishedProjects, projectPath } from '../lib/projects'
 import './HomePage.css'
 
 
 
 export function HomePage() {
+    const projects = getPublishedProjects();
+
     return (
         <>
         <section id="hero">
@@ -17,36 +19,36 @@ export function HomePage() {
     <section id="projects-handcode">
         <h2>Hand Coded</h2>
         <div className='case-study-cards'>
-          {caseStudies
-          .filter(study => hasLongFormContent(study) && study.agentic === false)
-          .map((study: (typeof caseStudies)[number]) =>(
+          {projects
+          .filter(project => !project.agentic)
+          .map((project) =>(
             <ProjectCard className='case-study-card'
-               key={study.id}
-               title={study.title}
-               tagline={study.tagline}
-               description={study.description}
-               stack={study.stack}
-               role={study.role}
-               href={`/projects/${getCaseStudySlug(study.title)}`}
-               achievement={study.achievement}  />
+               key={project.slug}
+               title={project.title}
+               tagline={project.tagline}
+               description={project.description}
+               stack={project.stack}
+               role={project.role}
+               href={projectPath(project.slug)}
+               achievement={project.achievement}  />
           ))}
         </div>
       </section>
       <section id='projects-agentic'>
         <h2>Agentic</h2>
         <div className='case-study-cards'>
-          {caseStudies
-          .filter(study => hasLongFormContent(study) && study.agentic === true)
-          .map((study: (typeof caseStudies)[number]) =>(
+          {projects
+          .filter(project => project.agentic)
+          .map((project) =>(
             <ProjectCard className='case-study-card'
-               key={study.id}
-               title={study.title}
-               tagline={study.tagline}
-               description={study.description}
-               stack={study.stack}
-               role={study.role}
-               href={`/projects/${getCaseStudySlug(study.title)}`}
-               achievement={study.achievement}  />
+               key={project.slug}
+               title={project.title}
+               tagline={project.tagline}
+               description={project.description}
+               stack={project.stack}
+               role={project.role}
+               href={projectPath(project.slug)}
+               achievement={project.achievement}  />
           ))}
         </div>
       </section>

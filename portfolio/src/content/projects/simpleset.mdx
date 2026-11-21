@@ -1,0 +1,60 @@
+---
+slug: simpleset
+title: SimpleSet
+tagline: Turning static workout plans into trackable goals
+description: Create your own or import an existing plan from a document, spreadsheet, PDF, or Google Drive, and simpleSet turns it into a day-by-day log with PRs, streaks, and progress tracking.
+agentic: true
+stack: [React, TypeScript, Supabase]
+role: Agentic SDLC
+platform: Mobile and Desktop via PWA architecture
+order: 20
+draft: false
+# TODO (PLAN S1.5): replace the placeholder image and its alt text with a real screenshot.
+image:
+  file: feature-03.png
+  alt: Placeholder image for the SimpleSet case study (screenshot coming soon)
+  width: 3200
+  height: 1800
+---
+
+### What It Is
+
+SimpleSet is a progressive web application that parses static workout plans in .pdf, .docx, .csv, .xlsx, and .html formats and turns them into a trackable interface with PRs, completion streaks, and per-exercise metrics.
+
+### What It Solves
+
+SimpleSet takes the tedious effort out of transferring a workout plan bought online into a training app. It also provides a platform-agnostic interface for tracking plans and programs that do not natively provide tracking, without charging a monthly subscription.
+
+### How It Does It
+
+Users import a plan from a supported document format or Google Drive, review and edit its structure, then track workouts, completion, and exercise progress over time.
+
+### Features
+
+- Document parser and OCR capabilities for images and image-based PDFs
+- Review, edit, reorder, group, and duplicate exercises and days before saving a plan
+- Workout tracker supporting supersets, circuits, and work:rest timers and intervals
+- Notes on individual exercises and workouts
+- Heatmap showing completion across 30, 60, and 90 days
+- Progress stats on individual exercises
+
+### What I Did
+
+**Supabase function for LLM parsing and OCR:** Kept the project lightweight while supporting robust parsing of image-based PDFs. Supabase auth provides a premium account tier with a limit of 10 LLM parsing calls per user per day. The function extracts text from PDFs or converts image-based PDFs to bytes before sending them to the LLM, reducing data load for calls.
+
+**Google Drive integration:** Enabled users to update major revisions to imported plans. Plans imported from Drive can be synced to newer versions of the same file by comparing and updating local storage.
+
+### Build Process
+
+Agentic SDLC
+
+### Known Bugs
+
+- When duplicating days across weeks, number fields on mobile require highlighting and deleting the placeholder before entering a new number.
+- Circuit exercises currently use the rest interval from the preceding exercise.
+- Exercise timers need sound.
+
+### What Is Next
+
+- Update the UI and improve desktop responsiveness for navigation elements.
+- Add an option to keep the screen awake while the app is active.

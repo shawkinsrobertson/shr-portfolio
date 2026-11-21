@@ -358,10 +358,10 @@ Frontmatter requires `remark-frontmatter` and `remark-mdx-frontmatter` (section 
 
 ### 8.2 Loading
 
-- **Metadata** (cards, nav, sitemap, tests): `import.meta.glob('../content/projects/*.mdx', { eager: true, import: 'frontmatter' })`. Small and eager.
-- **Body** (case study page): `import.meta.glob('../content/projects/*.mdx')` (lazy), rendered through `React.lazy` + `Suspense`, so the home page does not ship every study's prose (P5).
+- **One eager glob** (`import.meta.glob('../content/projects/*.mdx', { eager: true })`) gives each project's `frontmatter` (cards, nav, sitemap, tests) and its body component. MDX bodies are therefore in the main bundle (about 11 KB uncompressed for six studies). A lazy body glob alongside the frontmatter glob does not split anything, because Rollup keeps a module that is also imported statically in the same chunk. **Revisit in PLAN S3.6** if the JS budget needs it: extract frontmatter at build time (a small Vite plugin exposing a virtual module) so bodies can load on demand.
 - **Images:** resolved from `src/assets/project-img/` through a glob with `?url` so they keep Vite content hashes.
-- `lib/projects.ts` exposes `getPublishedProjects()` (filtered by `draft` and the publish bar, sorted by `order`, startup/React/TS-relevant first per D13) and `getProject(slug)`. Everything else (Nav, HomePage, routes, sitemap) calls these two functions. This replaces `hasLongFormContent` and `getCaseStudySlug` (P7). The slug is explicit in frontmatter, not derived from the title, so URLs stay stable and a title edit cannot break a shared link.
+- `lib/projects.ts` exposes `getAllProjects()`, `getPublishedProjects()` (drafts and projects missing the publish bar removed, sorted by `order`, startup/React/TS-relevant first per D13), `getProject(slug)` (published only), `projectPath(slug)`, `getProjectBody(slug)`, and `getProjectImageUrl(file)`. Everything else (Nav, HomePage, routes, sitemap) calls these. This replaced `hasLongFormContent` and `getCaseStudySlug` (P7), and `CaseStudies.tsx` is deleted. The slug is explicit in frontmatter, not derived from the title, so URLs stay stable and a title edit cannot break a shared link.
+- Projects whose frontmatter fails `validateFrontmatter` are ignored at runtime, and `content.test.ts` fails the build if any file is invalid, so a typo is caught in CI instead of silently dropping a study.
 
 ### 8.3 Publish bar (D3)
 
@@ -381,7 +381,7 @@ Heading rule: the page `<h1>` is the project title (from frontmatter). MDX bodie
 
 | # | Study | Action |
 |---|---|---|
-| 1 | Do Shit | Converted (experiment branch). Add frontmatter. |
+| 1 | Do Shit | Converted. Published as `todo-app`. |
 | 2-7 | Empty or partial entries | Create `.mdx` files with `draft: true`. They stay hidden until written. |
 | 8 | No Guts No Glory | Convert. Its JSX bold lead-ins become Markdown `**bold**`. |
 

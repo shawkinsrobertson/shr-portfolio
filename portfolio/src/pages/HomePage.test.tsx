@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import App from './../App';
-import { caseStudies, hasLongFormContent } from '../data/CaseStudies';
+import { getPublishedProjects } from '../lib/projects';
 
 const renderHome = () =>
 	render(
@@ -38,7 +38,7 @@ describe('HomePage', () => {
 		const sectionTitles = main.getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
 
 		expect(sectionTitles).toEqual(expect.arrayContaining(['Hand Coded', 'Agentic']));
-		const published = caseStudies.filter(hasLongFormContent);
+		const published = getPublishedProjects();
 		expect(main.getAllByRole('heading', { level: 3 })).toHaveLength(published.length);
 	});
 });
