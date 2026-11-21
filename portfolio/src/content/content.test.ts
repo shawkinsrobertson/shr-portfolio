@@ -41,6 +41,12 @@ describe('project content', () => {
 			for (const url of Object.values(project.links ?? {})) expect(url).toMatch(/^https:\/\//);
 		});
 
+		it('uses Markdown links and images, not raw HTML that skips the safe component mapping', () => {
+			// MDX only maps elements it generates from Markdown. A hand-written <a>, <img>, <script>, or
+			// <iframe> would bypass SafeLink/Figure (and their alt-text and link-scheme rules).
+			expect(body(`${project.slug}.mdx`)).not.toMatch(/<\s*(a|img|script|iframe|object|embed)[\s>/]/i);
+		});
+
 		it('starts headings at ### and never skips a level', () => {
 			const levels = headingLevels(`${project.slug}.mdx`);
 			if (levels.length === 0) return;

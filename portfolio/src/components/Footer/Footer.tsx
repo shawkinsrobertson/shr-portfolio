@@ -12,12 +12,12 @@ export function Footer() {
                 <li><a href={`mailto:${bioStats.email}`}>Email</a></li>
                 <li>
                     <a href={bioStats.linkedin} target="_blank" rel="noopener noreferrer">
-                        LinkedIn<span className="visually-hidden"> (opens in new tab)</span>
+                        LinkedIn <span className="visually-hidden">(opens in new tab)</span>
                     </a>
                 </li>
                 <li>
                     <a href={bioStats.github} target="_blank" rel="noopener noreferrer">
-                        GitHub<span className="visually-hidden"> (opens in new tab)</span>
+                        GitHub <span className="visually-hidden">(opens in new tab)</span>
                     </a>
                 </li>
             </ul>

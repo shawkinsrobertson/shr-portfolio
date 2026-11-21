@@ -2,6 +2,7 @@ import { useParams } from 'react-router';
 import { LuAward } from 'react-icons/lu';
 import { getProject, getProjectBody, getProjectImageUrl } from '../../lib/projects';
 import { NotFoundPage } from '../../pages/NotFoundPage';
+import { mdxComponents } from '../mdx/mdx-components';
 import './LongformCard.css';
 
 export const LongformCard = () => {
@@ -55,7 +56,7 @@ export const LongformCard = () => {
             <div className="longform-card-body">
                 {/* The body is a module-level import, so its identity is stable across renders. */}
                 {/* oxlint-disable-next-line react/static-components */}
-                <Body />
+                <Body components={mdxComponents} />
             </div>
         </div>
     );

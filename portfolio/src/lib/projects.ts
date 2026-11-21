@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import type { MDXProps } from 'mdx/types';
 
 export interface ProjectImage {
 	file: string;
@@ -97,7 +98,7 @@ export function selectPublished(projects: Project[]): Project[] {
 
 // Loaded eagerly: each module carries both its frontmatter (for cards and nav) and its body.
 // Splitting the bodies out needs the frontmatter extracted at build time instead (PLAN S3.6).
-const modules = import.meta.glob<{ frontmatter: unknown; default: ComponentType }>('../content/projects/*.mdx', {
+const modules = import.meta.glob<{ frontmatter: unknown; default: ComponentType<MDXProps> }>('../content/projects/*.mdx', {
 	eager: true,
 });
 const imageUrls = import.meta.glob<string>('../assets/project-img/*', { eager: true, query: '?url', import: 'default' });
