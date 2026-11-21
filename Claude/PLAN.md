@@ -1,6 +1,6 @@
 # PLAN.md: Implementation Plan
 > Created: 2026-11-20
-> Inputs: `Claude/intent.md`, `Claude/SPEC.md` (requirement IDs FR/NFR, decisions D1-D17, findings A/P are defined there)
+> Inputs: `Claude/intent.md`, `Claude/SPEC.md` (requirement IDs FR/NFR, decisions D1-D18, findings A/P are defined there)
 > App root: `portfolio/` (all paths below are relative to it unless prefixed `Claude/` or `.github/`)
 
 ## 0. How we work
@@ -18,19 +18,53 @@
 - Tests live beside the code: `X.test.tsx`; shared setup in `src/test/`.
 - A step is not done until its **Proof** column passes. Do not start a step whose predecessor's proof is red.
 
-**Blocked on you (needed inputs)**
+**Blocked on you (needed inputs), updated 2026-11-20**
 
 | Input | Needed by | Blocks |
 |---|---|---|
-| Resume PDF (metadata stripped) | Nov 24 | S1.5 |
-| Headshot (EXIF stripped) and alt text | Nov 24 | S1.5 |
-| Real project images + alt text for the published studies | Nov 24 | S1.5, S3.2 |
-| Hero/bio copy review (startup + React/TS lean, D13) | Nov 24 | S1.5 |
-| ~~Confirm slug `do-shit` stays (D12)~~ Decided: slug is `todo-app`, title stays "Do Shit" | Done | S1.1 |
-| Cloudflare Pages project connected to the repo (root `portfolio`, build `npm ci && npm run build`, output `dist`) | Nov 21 | S0.2 |
+| Resume PDF (export with "Save as PDF", metadata stripped, email only; checklist in SPEC 13.3) | Nov 24 | S1.5 real assets, `npm run prelaunch` |
+| Headshot (EXIF stripped) and alt text | Nov 24 | same |
+| Real project screenshots + alt text for Shelby, SimpleSet, Do Shit (and later the drafts) | Nov 24 | same, S3.2 |
+| Hero and bio copy review (startup + React/TS lean, D13) | Nov 24 | S1.5 |
+| Review of the two reworded Shelby sentences (`Claude/notes.md`) | Nov 24 | content sign-off |
+| Tech stack for No Guts No Glory (publishes it); content for Scream Recorder and Scavenger Hunt (or leave as drafts) | Nov 25 | Gate G1 content |
+| Substack URL, or leave hidden; confirm LinkedIn and GitHub URLs in `src/data/site.ts` | Nov 24 | S1.5 |
+| **Decision:** opossum accent (D17 vs D18 conflict, see S2.1 below) | Nov 24 | S2.1 |
+| Check CI and the Cloudflare preview on PR #3, then merge at G1 | Nov 21 | everything after |
 | Domain name and registrar/DNS access | Nov 26 | S4.1 |
 | Open Graph image (1200x630) | Nov 27 | S3.3 |
-| Confirm LinkedIn/GitHub URLs in `bioStats`; Substack URL or leave hidden | Nov 24 | S1.5 |
+| Enable Cloudflare Web Analytics in the dashboard (no repo token) | Nov 28 | S3.5 |
+
+## Progress and divergences (as of 2026-11-20)
+
+PR #1 (MDX experiment) and #2 (accessibility audit) are merged; **PR #3 (S1.1-S1.5 plus design rounds) is open**. 262 tests pass.
+
+| Step | Status | What diverged from the plan |
+|---|---|---|
+| S0.1 tooling and CI | Done | Added `src/test/axe.ts` (axe with color-contrast off, since jsdom cannot compute colors) and `vitest-axe.d.ts`; `node` types in `tsconfig.app.json`. The smoke accessibility test started as `it.fails` (two real violations) and became a plain `it` at G0. MDX/remark build packages moved to `devDependencies`. |
+| S0.2 early deploy | Done (no code) | Hosting is Cloudflare through `portfolio/wrangler.jsonc` (`assets.not_found_handling: single-page-application`) on `main`, not a `_redirects` file. Deep-link refresh confirmed on the live deploy. |
+| S0.3 theme logic | Done | Registry also carries each theme's `color` for the `theme-color` meta tag. An extra test proves `theme-init.js` agrees with `resolveTheme` for every theme and OS setting. |
+| (unplanned) toggle fix | Done | The old toggle always started as light and never saved the choice; fixed before S0.6. |
+| S0.4 tokens and base CSS | Done | Tests read theme CSS with `fs` (Vitest `css:false` returns empty for `?raw`). New tokens beyond the plan: `--award`, `--accent-fill-hover`, `--radius-button` (12px), `--space-section` (3rem), plus `.btn-secondary`. Old variable names are aliased and the old glass styles live in `legacy-glass.css` until S2.2. Added `contrast.ts` and `tokens.test.ts`. |
+| S0.5 layout, routes, 404 | Done | Added focus-to-`<main>` on route change. Footer takes no props. The case study `h1` landed in S1.4 as planned. |
+| S0.6 theme picker | Done | State lives in `src/lib/useTheme.ts`. An explicit re-click on the checked option counts as a choice (stops the OS overriding it). |
+| S0.7 nav menu | Done | Opens-at-pathname pattern closes it on route change; `NavLink` supplies `aria-current`. |
+| G0 | Met | CI green and deep links confirmed by the owner. The home page heading fix (Hero `h3` to `p`, section `h3` to `h2`) was pulled forward from S1.3/S1.5. |
+| (decision) slug | Done | Do Shit's URL is `/projects/todo-app`, title unchanged (D12 amended). |
+| S1.1 content model | Done, wider than planned | Also switched Nav, home, and the case study page to `projects.ts` and deleted `CaseStudies.tsx` (planned for S1.4). MDX loads **eagerly**: a lazy body glob next to the frontmatter glob split nothing (about 11 KB in the main bundle). Published: Shelby, SimpleSet, Do Shit. Drafts: No Guts No Glory (no stack), Scream Recorder, Scavenger Hunt. Entries 2 and 3 had no title and were dropped. Added `getAdjacentProjects`, `getProjectBody`, `getProjectImageUrl`. Frontmatter has no `thumb` field yet. |
+| S1.2 MDX components | Done | Added `Decision` and a `tradeoff` Callout; heading components split into their own file for the Fast Refresh lint rule; content test forbids raw `<a>`/`<img>` etc. in MDX, because MDX only maps Markdown-generated elements. |
+| S1.3 Badge, card, home | Done | One grid under a single `h2` "Selected projects". Removed the hover-only card image and the `imageUrl` prop (card thumbnails return once real images exist). |
+| S1.4 case study page | Done | `CaseStudyView` (presentational, testable with fixtures) plus a thin `CaseStudyPage`. Pager is two columns with "All projects" below (option 2). Role added to the facts list. |
+| S1.5 hero, bio, footer, assets | **Partial** | Code is done with placeholders. New and unplanned: `npm run prelaunch` gate (fails until placeholders are replaced), visually hidden "(PDF)" on resume links. **Open:** real resume, headshot, screenshots; copy review; Substack; visible card thumbnails; `Figure` is built but unused. |
+| Design feedback rounds | Done | Logged in `Claude/notes.md`: longform spacing, `Decision` blocks, button radius and hover, unitless line-height fix, one accent per theme (D18), link styles. |
+| Phases 2, 3, 4 | Not started | See the changes below. |
+
+**Changes to later steps**
+- **S2.1 opossum, needs your decision.** D18 says one accent per theme (fill, text, ring, border all equal), enforced by `contrast.test.ts`. D17 set opossum's accent to `#FF914E`, which is only 3.69:1 to 4.52:1 on the gradient, so it cannot be small text. Options: (a) one opossum accent `#FFB080` everywhere (4.62:1 at the worst stop, dark `#232323` label, about 7:1); (b) keep `#FF914E` for fills and rings and exempt opossum's `--accent-text` from the single-accent test. Recommendation: (a), because it matches how dark was solved.
+- **S3.2 images:** the image glob ships every file in `src/assets/project-img/`, including five `thumb-*.png` files nothing uses (about 130 KB in `dist`). Delete the unused thumbs or narrow the glob, and convert to WebP.
+- **S3.4 and S4.1 hosting:** the deploy is Cloudflare static assets via `wrangler.jsonc`. Confirm the `_headers` file is honored by that deploy path before relying on it for the CSP; if it is not, set headers in `wrangler.jsonc` or a Worker.
+- **S3.6 bundle:** JS is 94 KB gzip against the 150 KB budget. If it grows, extract frontmatter at build time (a small Vite plugin with a virtual module) so MDX bodies can lazy-load.
+- **S4.4:** `npm run prelaunch` must pass.
 
 ---
 
@@ -102,22 +136,23 @@
 
 ---
 
-## Test inventory (what proves what)
+## Test inventory (what proves what), 262 tests in 19 files
 
 | Test file | Proves |
 |---|---|
-| `src/lib/theme.test.ts`, `theme-init` test | FR7, D6: default, persistence, validation, fallback, no flash |
-| `src/styles/contrast.test.ts` | NFR1: AA text and non-text contrast per theme, both opossum stops, glass scrim |
-| `src/content/content.test.ts` | D3, FR2: publish bar, schema, alt text, https links, heading levels, asset existence |
-| `src/lib/projects.test.ts` | FR2: only published studies surface |
-| `routes.test.tsx` | FR9, FR11, FR13 (client side): routes, 404, skip link, landmarks |
-| Component tests (`Nav`, `ThemeSwitcher`, `ProjectCard`, `Badge`, `Hero`, `Footer`, `CaseStudyPage`, `mdx`) | FR1-FR8, FR10, NFR1, NFR8, each with `vitest-axe` |
-| `src/lib/seo.test.tsx`, `generate-sitemap` test | FR12, SEO |
-| `public/_headers.test.ts` | NFR5 |
-| Lighthouse CI | NFR2 |
-| Manual log (`Claude/qa-log.md`) | Screen reader, zoom, high contrast, cross-browser, live headers (things jsdom cannot test) |
+| `src/lib/theme.test.ts`, `theme-init.test.ts` | FR7, D6: default, persistence, validation, fallback, no flash; init script agrees with `resolveTheme` |
+| `src/styles/contrast.test.ts` | NFR1: AA text and non-text contrast per theme; one accent color per theme (D18); hover fill; award chip |
+| `src/styles/tokens.test.ts` | Unitless root line-height; button radius at most 12px; section spacing token |
+| `src/content/content.test.ts` | D3, FR2: every project file valid; slug matches file; image exists; https links; headings start at `###` without skips; no raw HTML in MDX; published projects have a section |
+| `src/lib/projects.test.ts` | Validator, publish bar (each missing field), ordering, adjacent projects, unknown and draft slugs |
+| `src/routes.test.tsx` | FR9, FR11, FR13: routes, 404s (including old URLs), landmarks, skip link, focus after navigation |
+| Component tests (`Nav`, `ThemeSwitcher`, `ProjectCard`, `Badge`, `Hero`, `Footer`, `mdx`) | FR1-FR3, FR6, FR8, FR10, NFR1, NFR8, each with `vitest-axe` |
+| `src/pages/HomePage.test.tsx`, `BioPage.test.tsx`, `CaseStudyPage.test.tsx` | Heading outline, card list, bio contact links and Substack guard, case study facts, links, pager, real studies |
+| `src/data/site.test.ts` | Site data sanity, `httpsUrl` guard |
+| `src/prelaunch.test.ts` (run with `npm run prelaunch`, not in CI) | No placeholder resume, headshot, or screenshots at launch |
+| Not yet written | `src/lib/seo.test.tsx`, sitemap test, `public/_headers.test.ts`, Lighthouse CI (Phase 3); manual log `Claude/qa-log.md` (Phase 4) |
 
-**Known limit:** jsdom cannot compute real colors or layout, so contrast is proven at the token level plus Lighthouse and manual checks. Optional after launch: Playwright + `@axe-core/playwright` against the rendered themes.
+**Known limit:** jsdom cannot compute real colors or layout, so contrast is proven at the token level plus Lighthouse and manual checks, and CSS-only changes (spacing, radius, hover, mobile layouts) need a look in a browser. Optional after launch: Playwright + `@axe-core/playwright`.
 
 ## Requirement coverage
 
@@ -138,9 +173,11 @@
 | NFR6 | S1.1, S3.7 |
 | NFR7 | S0.1 |
 
-## Risks to watch while building
-1. **Glass contrast** is the most likely to miss the Nov 27 cut. Build it last (S2.2), and the flag makes dropping it cheap.
-2. **Content blockers** (resume, headshot, images, copy) sit on the Nov 24 path. If any slips, S1.5 and G1 slip with it.
-3. **Tooling compatibility:** the repo uses very new versions (Vite 8, TypeScript 7, React 19, react-router 8). Confirm Vitest, `@mdx-js/rollup`, and the remark plugins install and run at S0.1 and S1.1 before building on them.
-4. **Unverified assumptions** to test early: Cloudflare SPA fallback (S0.2), CSP with the theme-init script and Pages analytics (S3.4), `backdrop-filter` cost on mobile (S3.6).
-5. **Reversibility:** each step is its own commit, so a bad step reverts alone.
+## Risks to watch while building (updated 2026-11-20)
+1. **Opossum and glass vs the Nov 27 cut line.** Opossum needs the accent decision above; glass contrast is still the most likely miss. The `enabled` flags make dropping either cheap.
+2. **Content and asset blockers** (resume, headshot, screenshots, copy) sit on the Nov 24 path, and Gate G1 needs real assets.
+3. **A placeholder could ship.** The placeholder resume and headshot are committed. `npm run prelaunch` catches them but is not part of CI, so run it before every merge that goes live until the real files are in.
+4. **CSS cannot be fully tested here.** Spacing, hover, radius, and the mobile layouts depend on your visual checks each round.
+5. **Tooling versions** (Vite 8, TypeScript 7, React 19, react-router 8, Vitest 5) have worked without trouble so far.
+6. **Unverified assumptions** to test early: the `_headers` file under the wrangler deploy (S3.4), CSP with the theme-init script and analytics, and `backdrop-filter` cost on mobile (S3.6).
+7. **Reversibility:** each step is its own commit, so a bad step reverts alone.
