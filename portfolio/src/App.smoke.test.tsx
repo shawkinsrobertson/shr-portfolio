@@ -18,10 +18,7 @@ describe('App', () => {
 		expect(container.querySelector('nav')).toBeInTheDocument();
 	});
 
-	// Known violations in the current code (SPEC A1 icon-only theme button with no name,
-	// A4 skipped heading level). `it.fails` keeps CI green now and turns red the moment
-	// they are fixed, which is the cue to change this to a plain `it` (PLAN S0.6/S1.3).
-	it.fails('has no accessibility violations on the home route', async () => {
+	it('has no accessibility violations on the home route', async () => {
 		const { container } = renderApp('/');
 
 		expect(await axe(container)).toHaveNoViolations();

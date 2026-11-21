@@ -2,6 +2,7 @@ import {caseStudies} from '../../data/CaseStudies';
 import { getCaseStudySlug } from '../../data/CaseStudies';
 import { useParams } from 'react-router';
 import './LongformCard.css';
+import { NotFoundPage } from '../../pages/NotFoundPage';
 import { LuAward } from "react-icons/lu";
 
 const mdxContent = import.meta.glob<{ default: React.ComponentType }>('../../content/*.mdx', { eager: true });
@@ -13,7 +14,7 @@ export const LongformCard = () => {
     const study = caseStudies.find((s) => getCaseStudySlug(s.title) === slug);
 
     if (!study) {
-        return <div>Case study not found</div>;
+        return <NotFoundPage />;
     }
 
     const longFormSections = [

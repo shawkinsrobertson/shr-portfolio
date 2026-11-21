@@ -35,7 +35,7 @@ This spec turns INTENT.md into buildable work against the existing React 19 + Vi
 | D9 | Host on Cloudflare Pages with a custom domain. | Chat |
 | D10 | Vitest + `vitest-axe`. Site must stay testable at any size. | Chat |
 | D11 | Routes become `/`, `/projects/:slug`, `/bio`, plus a 404. Footer mounted on every page. Substack hidden until it has a real URL. | Chat (defaults accepted) |
-| D12 | Profanity in "Do Shit" and the tagline stays. Flagged as the owner's call. | Chat |
+| D12 | Profanity in "Do Shit" and the tagline stays. **Amended:** the project URL slug is the neutral `todo-app`; the title stays "Do Shit". | Chat |
 | D13 | Lean copy and project order toward startup and React/TypeScript work. | Chat |
 | D14 | Opossum base is an opaque vertical gradient `#505200` to `#5E3A00`, both stops at 100% opacity, top to bottom. | Chat |
 | D15 | Proposed contrast fixes accepted (light secondary text, dark accent text, glass accent text; opossum text tokens in 6.4). | Chat |
@@ -333,7 +333,7 @@ A tiny blocking script in `<head>` sets `data-theme` on `<html>` before first pa
 
 ```mdx
 ---
-slug: do-shit
+slug: todo-app
 title: Do Shit
 tagline: A vanilla JS to-do application
 description: Responsive web app using CRUD and local storage to organize tasks, lists, and projects.
@@ -354,7 +354,7 @@ thumb: { file: thumb-01.webp, width: 640, height: 360 }   # decorative on cards
 ...
 ```
 
-Frontmatter requires `remark-frontmatter` and `remark-mdx-frontmatter` (section 5.3). The experiment branch's `do-shit.mdx` has no frontmatter yet; it gains the block above.
+Frontmatter requires `remark-frontmatter` and `remark-mdx-frontmatter` (section 5.3). The experiment branch's `todo-app.mdx` has no frontmatter yet; it gains the block above.
 
 ### 8.2 Loading
 
@@ -557,7 +557,7 @@ I applied the security-review lens (secure-by-default, least privilege, input ha
 |---|---|
 | Content | A test loads every project's frontmatter and asserts: slug unique and kebab-case, required fields present, `image.alt` non-empty, links are `https:`, `draft:false` entries meet the publish bar, MDX bodies do not skip heading levels. This is the guard for D3. |
 | Components | Render each component under each theme attribute; run `axe` (`vitest-axe`) and assert no violations. Cover Nav disclosure (click, Enter, Escape, route change), ThemeSwitcher (arrow keys, persistence, invalid stored value ignored, OS-change listener), ProjectCard (accessible name is the title), Hero (resume link always present), NotFound. |
-| Routing | `MemoryRouter` tests: `/`, `/projects/do-shit`, `/projects/unknown`, `/projects/<draft slug>` shows 404, `/bio`, `*`. |
+| Routing | `MemoryRouter` tests: `/`, `/projects/todo-app`, `/projects/unknown`, `/projects/<draft slug>` shows 404, `/bio`, `*`. |
 | Theme logic | Pure functions in `lib/theme.ts` unit-tested: resolve theme from (stored, media query), validate, persist with storage throwing. |
 | Contrast | **jsdom does not compute colors, so `axe` cannot check contrast there.** A token test parses `styles/themes/*.css`, resolves each text/background and focus/background pair, and asserts the ratios in 6.4 (4.5:1 text, 3:1 non-text). Glass is tested against its scrim over the lightest and darkest gradient stops. |
 
@@ -582,7 +582,7 @@ I applied the security-review lens (secure-by-default, least privilege, input ha
 ## 16. Deployment (D9)
 
 - **Cloudflare Pages**, Git integration on `main`. Root directory `portfolio`, build command `npm ci && npm run build`, output directory `dist`.
-- **SPA fallback:** Pages serves `index.html` for unknown paths when no top-level `404.html` exists, so react-router deep links work (FR13). Verify with a refresh test on `/projects/do-shit` after the first deploy. A `public/_redirects` line `/* /index.html 200` is the explicit fallback if needed. Real 404 status codes are not possible in a pure SPA; `noindex` on the 404 view covers search.
+- **SPA fallback:** Pages serves `index.html` for unknown paths when no top-level `404.html` exists, so react-router deep links work (FR13). Verify with a refresh test on `/projects/todo-app` after the first deploy. A `public/_redirects` line `/* /index.html 200` is the explicit fallback if needed. Real 404 status codes are not possible in a pure SPA; `noindex` on the 404 view covers search.
 - Custom domain on Cloudflare (DNS and registration can both live there). Redirect `www` to apex (or the reverse) with one canonical form, matching the `<link rel="canonical">`.
 - Preview deploys for the `mdx-experiment` branch and PRs, unindexed.
 - Environment: no secrets, no env vars required.
@@ -655,7 +655,7 @@ Implementation consequences:
 5. **Link previews.** A client-rendered SPA cannot give per-page previews in Slack or LinkedIn. Recruiters often paste links, so this is a real trade-off against the "first impression" goal. Launch with a good site-wide preview, then add pre-rendering.
 6. **MDX power.** MDX executes code at build time. Safe for your own files; never wire it to untrusted content (13.2).
 7. **Content readiness.** Seven of eight case studies are empty or partial. The site must look complete with two published studies. Consider ordering and copy so two strong studies read as a deliberate "selected work" rather than a thin portfolio, and consider whether the homepage should say "selected projects."
-8. **Profanity and tone (D12).** Kept at your direction. For a startup-leaning audience it can read as personality or as a risk depending on the reader; the project title also appears in the URL slug (`/projects/do-shit`) and in link previews. A neutral slug (for example `todo-app`) with the title unchanged is an option that keeps both.
+8. **Profanity and tone (D12).** Kept at your direction. For a startup-leaning audience it can read as personality or as a risk depending on the reader; the project title also appears in link previews. Partly resolved: the URL slug is `todo-app`, but the title "Do Shit" is unchanged and still appears on the page and in link previews.
 9. **Placeholder personal data in repo.** The bio copy, location, and LinkedIn/GitHub URLs are public by design. Check nothing in the repo or git history contains data you would not publish (the repo is pushed).
 10. **Testing limits.** `axe` in jsdom cannot test color contrast or real layout. That is why contrast gets a token-level test, Lighthouse CI, and a manual pass.
 11. **Analytics beacon vs. performance.** The one third-party script is allowed by CSP. Re-measure Lighthouse with it enabled.
