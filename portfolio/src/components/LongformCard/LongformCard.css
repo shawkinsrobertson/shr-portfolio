@@ -31,7 +31,7 @@
 }
 
 .ribbon {
-    color: goldenrod;
+    color: var(--award);
     font-size: 24px;
 }
 

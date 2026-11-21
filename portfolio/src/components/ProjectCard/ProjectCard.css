@@ -94,8 +94,8 @@
     font-size: smaller;
     padding: 4px 10px;
     border-radius: 8px;
-    background: var(--accent-bg);
-    color: var(--text-primary);
+    background: var(--award);
+    color: var(--award-contrast);
 }
 
 @media (prefers-reduced-motion: no-preference) {

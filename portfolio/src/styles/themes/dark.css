@@ -10,6 +10,8 @@
   --focus: #8C9BFF;
   --accent-bg: rgba(140, 155, 255, 0.15);
   --accent-border: rgba(140, 155, 255, 0.6);
+  --award: #DAA520; /* goldenrod: the ribbon icon and the award chip */
+  --award-contrast: #232323;
   --border: #3A3A3A;
   --code-bg: #2E2E2E;
   --social-bg: rgba(46, 46, 46, 0.5);

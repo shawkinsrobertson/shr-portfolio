@@ -19,7 +19,7 @@ const pairs: Pair[] = [
 	['--focus', '--bg', NON_TEXT, 'focus ring'],
 	['--accent-contrast', '--accent-fill', TEXT, 'label on an accent-filled button'],
 	['--accent-text', '--accent-bg', TEXT, 'accent text on its tinted pill (blended over --bg)'],
-	['--text-primary', '--accent-bg', TEXT, 'body text on the tinted highlight (blended over --bg)'],
+	['--award-contrast', '--award', TEXT, 'label on the gold award chip'],
 ];
 
 const themes = { light: theme('light'), dark: theme('dark') };
