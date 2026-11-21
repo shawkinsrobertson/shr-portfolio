@@ -40,9 +40,17 @@ Users import a plan from a supported document format or Google Drive, review and
 
 ### What I Did
 
+<Decision>
+
 **Supabase function for LLM parsing and OCR:** Kept the project lightweight while supporting robust parsing of image-based PDFs. Supabase auth provides a premium account tier with a limit of 10 LLM parsing calls per user per day. The function extracts text from PDFs or converts image-based PDFs to bytes before sending them to the LLM, reducing data load for calls.
 
+</Decision>
+
+<Decision>
+
 **Google Drive integration:** Enabled users to update major revisions to imported plans. Plans imported from Drive can be synced to newer versions of the same file by comparing and updating local storage.
+
+</Decision>
 
 ### Build Process
 

@@ -76,7 +76,7 @@
 
     .longform-title-and-award {
         flex-direction: column;
-        gap: 2px;
+        gap: 8px;
     }
 }
 .longform-card-body {
@@ -130,4 +130,27 @@
     margin: 0;
     padding: 12px 0 0;
     list-style: none;
+}
+
+/* Room to breathe between sections, paragraphs, and bullets. */
+.longform-card-body h2 {
+    margin: 2.5rem 0 0.75rem;
+}
+
+.longform-card-body > :first-child {
+    margin-top: 0;
+}
+
+.longform-card-body p {
+    margin: 0 0 1rem;
+}
+
+.longform-card-body ul,
+.longform-card-body ol {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+}
+
+.longform-card-body li + li {
+    margin-top: 0.5rem;
 }

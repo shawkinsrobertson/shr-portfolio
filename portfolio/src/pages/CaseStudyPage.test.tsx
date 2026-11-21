@@ -155,6 +155,20 @@ describe('case study route', () => {
 		expect(lastNav.getByRole('link', { name: /previous/i })).toBeInTheDocument();
 	});
 
+	it('renders Shelby\'s "What I Did" as two decisions, each with a trade-off callout', () => {
+		const { container } = at('shelby');
+		const decisions = [...container.querySelectorAll('.decision')];
+
+		expect(decisions).toHaveLength(2);
+		for (const decision of decisions) {
+			const note = within(decision as HTMLElement).getByRole('note');
+			expect(note).toHaveTextContent('Trade-off');
+			expect(note.textContent?.replace('Trade-off', '').trim().length).toBeGreaterThan(20);
+		}
+		expect(decisions[0]).toHaveTextContent(/CGM ingestion via local inter-app broadcast/);
+		expect(decisions[1]).toHaveTextContent(/flat basal insulin calculation/);
+	});
+
 	it('has no accessibility violations on a real case study', async () => {
 		const { container } = at(published[0].slug);
 

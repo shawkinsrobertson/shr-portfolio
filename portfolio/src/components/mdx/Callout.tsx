@@ -4,6 +4,7 @@ const LABELS = {
 	note: 'Note',
 	bug: 'Known bug',
 	learning: 'Lesson learned',
+	tradeoff: 'Trade-off',
 } as const;
 
 interface CalloutProps {

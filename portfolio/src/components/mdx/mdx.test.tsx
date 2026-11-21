@@ -94,6 +94,7 @@ describe('Callout', () => {
 		['note', 'Note'],
 		['bug', 'Known bug'],
 		['learning', 'Lesson learned'],
+		['tradeoff', 'Trade-off'],
 	])('labels a %s callout with text, not just color', async (type, label) => {
 		await renderMdx(`<Callout type="${type}">Body text</Callout>`);
 		const callout = screen.getByRole('note');
@@ -106,6 +107,34 @@ describe('Callout', () => {
 		await renderMdx('<Callout>Hello</Callout>');
 
 		expect(within(screen.getByRole('note')).getByText('Note')).toBeInTheDocument();
+	});
+});
+
+describe('Decision', () => {
+	const source = [
+		'<Decision>',
+		'**Used a flat basal calculation** instead of per-insulin curves.',
+		'<Callout type="tradeoff">Can over- or under-suggest.</Callout>',
+		'</Decision>',
+		'<Decision>',
+		'**Used local broadcast** for CGM data.',
+		'</Decision>',
+	].join('\n\n');
+
+	it('groups a decision with its trade-off callout', async () => {
+		const { container } = await renderMdx(source);
+		const [first, second] = container.querySelectorAll('.decision');
+
+		expect(within(first as HTMLElement).getByText(/flat basal calculation/)).toBeInTheDocument();
+		expect(within(first as HTMLElement).getByRole('note')).toHaveTextContent('Trade-off');
+		expect(within(second as HTMLElement).queryByRole('note')).not.toBeInTheDocument();
+	});
+
+	it('is a plain group, not an extra landmark or heading', async () => {
+		await renderMdx(source);
+
+		expect(screen.queryByRole('region')).not.toBeInTheDocument();
+		expect(screen.queryByRole('heading')).not.toBeInTheDocument();
 	});
 });
 
@@ -152,6 +181,7 @@ describe('accessibility', () => {
 				'Text with [a link](https://example.com) and `inline`.',
 				'#### Detail',
 				'<Callout type="bug">Careful</Callout>',
+				'<Decision>\n\nWe chose X.\n\n<Callout type="tradeoff">At a cost.</Callout>\n\n</Decision>',
 				'<Figure file="feature-01.png" alt="A picture" width={10} height={10} caption="Caption" />',
 				'```ts\nconst x = 1;\n```',
 			].join('\n\n'),

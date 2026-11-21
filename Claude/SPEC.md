@@ -371,7 +371,8 @@ A study is public only if `draft: false` **and** it has: non-empty `title`, `tag
 
 `mdx-components.tsx` maps Markdown elements to styled, accessible components and provides:
 - `Figure` (requires `alt`; optional caption)
-- `Callout` (variants: note, bug, learning; text label included, not color-only)
+- `Callout` (variants: note, bug, learning, tradeoff; text label included, not color-only)
+- `Decision` (a plain group for one "What I Did" decision and its trade-off callout; no heading or landmark, so the outline is unchanged)
 - `CodeBlock` (monospace, horizontally scrollable, keyboard-focusable when it overflows)
 - Links: external links get `target="_blank"` with `rel="noopener noreferrer"` and a visually hidden "(opens in new tab)".
 

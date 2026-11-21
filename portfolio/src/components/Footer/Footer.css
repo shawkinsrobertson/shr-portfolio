@@ -24,3 +24,16 @@
     padding: 8px 4px;
     color: var(--accent-text);
 }
+
+/* On a phone the copyright and links stack and center, instead of the links wrapping to the left. */
+@media (max-width: 640px) {
+    .footer {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .footer ul {
+        justify-content: center;
+    }
+}
