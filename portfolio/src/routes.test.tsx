@@ -24,11 +24,11 @@ describe('routes', () => {
 	});
 
 	it('renders a case study at /projects/:slug', () => {
-		renderAt('/projects/do-shit');
+		renderAt('/projects/todo-app');
 		expect(screen.getByRole('heading', { name: 'Do Shit' })).toBeInTheDocument();
 	});
 
-	it.each(['/nope', '/projects/does-not-exist', '/pages/bio'])('shows the 404 page at %s', (path) => {
+	it.each(['/nope', '/projects/does-not-exist', '/projects/do-shit', '/pages/bio'])('shows the 404 page at %s', (path) => {
 		renderAt(path);
 
 		expect(screen.getByRole('heading', { level: 1, name: /page not found/i })).toBeInTheDocument();

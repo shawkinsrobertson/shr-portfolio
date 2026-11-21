@@ -248,7 +248,16 @@ export const caseStudies = [
 	},
 ];
 
+// Titles whose URL should not match them (D12: the title stays, the URL is neutral).
+// Replaced by a `slug` field in each project's MDX frontmatter in PLAN S1.1.
+const SLUG_OVERRIDES: Record<string, string> = {
+	'Do Shit': 'todo-app',
+};
+
 export function getCaseStudySlug(title: string) {
+	const override = SLUG_OVERRIDES[title.trim()];
+	if (override) return override;
+
 	return title
 		.trim()
 		.toLowerCase()
