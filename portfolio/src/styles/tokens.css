@@ -7,6 +7,8 @@
   --header-h: 4rem;
   --radius-card: 12px;
   --radius-pill: 50px;
+  --radius-button: 12px;
+  --space-section: 3rem;
 
   /* Legacy names used by components that have not been rewritten yet (PLAN S1.x).
      `--accent` was used for text and links, so it maps to the accessible text token. */
@@ -14,7 +16,7 @@
   --text-h: var(--text-primary);
   --accent: var(--accent-text);
 
-  font: 18px/145% var(--sans);
+  font: 18px/1.45 var(--sans);
   letter-spacing: 0.18px;
   color: var(--text-primary);
   background: var(--bg);

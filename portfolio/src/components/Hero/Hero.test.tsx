@@ -14,9 +14,9 @@ describe('Hero', () => {
 		expect(screen.getByText('Front-End Developer').tagName).toBe('P');
 	});
 
-	it('always offers the resume, with its file type in the link text', () => {
+	it('always offers the resume', () => {
 		renderHero();
-		const resume = screen.getByRole('link', { name: /resume \(pdf\)/i });
+		const resume = screen.getByRole('link', { name: /^download resume$/i });
 
 		expect(resume).toHaveAttribute('href', site.resume.href);
 		expect(resume).toHaveAttribute('download');

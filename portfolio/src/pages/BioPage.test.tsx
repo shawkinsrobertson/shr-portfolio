@@ -44,7 +44,7 @@ describe('BioPage', () => {
 		expect(contact().getByRole('link', { name: /email/i })).toHaveAttribute('href', `mailto:${site.email}`);
 		expect(contact().getByRole('link', { name: /linkedin/i })).toHaveAttribute('href', site.linkedin);
 		expect(contact().getByRole('link', { name: /github/i })).toHaveAttribute('href', site.github);
-		expect(contact().getByRole('link', { name: /resume \(pdf\)/i })).toHaveAttribute('href', site.resume.href);
+		expect(contact().getByRole('link', { name: /^resume$/i })).toHaveAttribute('href', site.resume.href);
 	});
 
 	it('opens external profiles in a new tab, safely, and says so', () => {

@@ -113,6 +113,13 @@
     display: inline-block;
     padding: 8px 4px;
     color: var(--accent-text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.longform-links a:hover,
+.longform-pager a:hover {
+    text-decoration: underline;
 }
 
 .longform-pager {

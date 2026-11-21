@@ -23,6 +23,12 @@
     display: inline-block;
     padding: 8px 4px;
     color: var(--accent-text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }
 
 /* On a phone the copyright and links stack and center, instead of the links wrapping to the left. */

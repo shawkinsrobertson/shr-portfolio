@@ -28,6 +28,7 @@ h2 {
 
 h1 {
   font-size: 56px;
+  line-height: 1.1;
   letter-spacing: -1.68px;
   margin: 32px 0;
   @media (max-width: 1024px) {
@@ -76,7 +77,7 @@ code {
   min-height: 44px;
   padding: 8px 20px;
   border: 2px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-button);
   font: inherit;
   font-weight: 600;
   text-decoration: none;
@@ -89,6 +90,31 @@ code {
   background: transparent;
   color: var(--accent-text);
   border-color: var(--accent-border);
+}
+
+/* Hover: the fill shifts and a shadow appears. Both are fine for everyone; the lift below only runs
+   when the OS allows motion. */
+.btn:hover {
+  background: var(--accent-fill-hover);
+  box-shadow: var(--shadow);
+}
+
+.btn-secondary:hover {
+  background: var(--accent-bg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn {
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

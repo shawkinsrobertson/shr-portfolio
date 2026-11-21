@@ -411,7 +411,7 @@ As section 7.3.
 ### 9.4 Hero (`Hero.tsx`, fixes A4, A10)
 - `h1` name; the role line becomes a `<p>` (not `h3`).
 - CTAs: "Email me" (`mailto:`) and "Download resume" (PDF). Both always rendered (D4); the conditional is deleted. Styled as real buttons on the semantic tokens, replacing the undefined `liquid-glass` class (A10).
-- Resume link includes file type and size in its accessible text, for example "Download resume (PDF)".
+- Resume link text is "Download resume" (owner chose to leave the file type off the visible text).
 - Copy leans to startup and React/TypeScript (D13). The current tagline stays (D12).
 
 ### 9.5 ProjectCard (`ProjectCard.tsx`, fixes A5, A11)

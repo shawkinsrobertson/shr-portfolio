@@ -18,6 +18,7 @@ const pairs: Pair[] = [
 	['--accent-text', '--bg', TEXT, 'links and accent-colored text'],
 	['--focus', '--bg', NON_TEXT, 'focus ring'],
 	['--accent-contrast', '--accent-fill', TEXT, 'label on an accent-filled button'],
+	['--accent-contrast', '--accent-fill-hover', TEXT, 'label on a hovered accent-filled button'],
 	['--accent-text', '--accent-bg', TEXT, 'accent text on its tinted pill (blended over --bg)'],
 	['--award-contrast', '--award', TEXT, 'label on the gold award chip'],
 ];

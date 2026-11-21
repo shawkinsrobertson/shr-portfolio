@@ -4,7 +4,7 @@
     left: 8px;
     z-index: 2000;
     padding: 10px 16px;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-button);
     background: var(--accent-fill);
     color: var(--accent-contrast);
     font-weight: 600;
