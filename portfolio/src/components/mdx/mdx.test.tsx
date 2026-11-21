@@ -130,11 +130,10 @@ describe('Decision', () => {
 		expect(within(second as HTMLElement).queryByRole('note')).not.toBeInTheDocument();
 	});
 
-	it('is a plain group, not an extra landmark or heading', async () => {
+	it('is a plain group, not an extra landmark', async () => {
 		await renderMdx(source);
 
 		expect(screen.queryByRole('region')).not.toBeInTheDocument();
-		expect(screen.queryByRole('heading')).not.toBeInTheDocument();
 	});
 });
 

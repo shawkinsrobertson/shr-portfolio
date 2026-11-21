@@ -38,8 +38,9 @@ Needs a look in a browser at phone and desktop widths. Easy to tune: these are t
   ```
   (Blank lines inside the tags are needed so the Markdown is parsed.)
 
+**Done.** Each decision now has a short `####` title (rendered h3) instead of a bold sentence fragment, in Shelby, SimpleSet, and No Guts No Glory. Because the bold text was the start of a sentence, a few sentences were lightly reworded so they stand alone under their heading. **Please review these edits** (they are my wording): Shelby's two decisions, where "CGM ingestion via local inter-app broadcast (requires ...) instead of follower account allows for ..." became "Uses a local inter-app broadcast (requires ...) instead of a follower account, which allows for ...", and "Used a flat basal insulin calculation when modifying the algorithm" became "When modifying the algorithm, I used a flat basal insulin calculation ...". SimpleSet and No Guts only moved their lead-in phrase into the heading.
+
 **Idea (not done).**
-- Give each decision a short title as a `####` heading (rendered h3) so it can be scanned and so screen reader users can jump between decisions. It would replace the bold fragment. This is a content choice, so it is yours to decide.
 - Trade-off callouts currently share the accent tint with the other callout types. A distinct treatment (icon or different tint) could separate them from plain notes.
 
 ### Mobile: title and achievement
@@ -49,7 +50,7 @@ Needs a look in a browser at phone and desktop widths. Easy to tune: these are t
 **Done.** Under 640px the footer stacks and centers (copyright, then the links). Before, the links wrapped to the left on their own line.
 
 ### Mobile: bottom navigation on project pages wraps
-**Open. Decision needed.** The previous / all projects / next row is a flex row with `space-between` and wrapping. With long titles ("Previous: SimpleSet", "Next: No Guts No Glory") the three items do not fit on one line at phone width, so they wrap unevenly.
+**Done (option 2).** Previous and Next now sit in two fixed columns (titles wrap inside their own column), with "All projects" centered underneath, at every width. A missing neighbour leaves its column empty instead of shifting the other link, and no empty list items are rendered. DOM order matches the visual order (Previous, Next, All projects). Original analysis: The previous / all projects / next row is a flex row with `space-between` and wrapping. With long titles ("Previous: SimpleSet", "Next: No Guts No Glory") the three items do not fit on one line at phone width, so they wrap unevenly.
 
 Options:
 1. **Stack vertically under 640px.** Three full-width rows, each a 44px-tall target, in the order Previous, Next, All projects. Simple and predictable; uses more height.

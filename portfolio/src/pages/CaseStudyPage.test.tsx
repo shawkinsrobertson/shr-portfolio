@@ -106,6 +106,28 @@ describe('CaseStudyView', () => {
 		expect(within(nav).getByRole('link', { name: /all projects/i })).toHaveAttribute('href', '/');
 	});
 
+	it('reads Previous, Next, then All projects, matching the two-column layout', () => {
+		renderView({
+			prev: { ...project, slug: 'older', title: 'Older App' },
+			next: { ...project, slug: 'newer', title: 'Newer App' },
+		});
+		const nav = screen.getByRole('navigation', { name: /more projects/i });
+
+		expect(within(nav).getAllByRole('link').map((a) => a.textContent?.replace(/[←→]/g, '').trim())).toEqual([
+			'Previous: Older App',
+			'Next: Newer App',
+			'All projects',
+		]);
+	});
+
+	it('never renders an empty list item for a missing neighbour', () => {
+		renderView({ next: { ...project, slug: 'newer', title: 'Newer App' } });
+		const nav = screen.getByRole('navigation', { name: /more projects/i });
+
+		expect(within(nav).getAllByRole('listitem')).toHaveLength(2);
+		for (const item of within(nav).getAllByRole('listitem')) expect(item).not.toBeEmptyDOMElement();
+	});
+
 	it('omits Previous at the start and Next at the end', () => {
 		renderView({ next: { ...project, slug: 'newer', title: 'Newer App' } });
 		const nav = screen.getByRole('navigation', { name: /more projects/i });
@@ -155,7 +177,7 @@ describe('case study route', () => {
 		expect(lastNav.getByRole('link', { name: /previous/i })).toBeInTheDocument();
 	});
 
-	it('renders Shelby\'s "What I Did" as two decisions, each with a trade-off callout', () => {
+	it('renders Shelby\'s "What I Did" as two titled decisions, each with a trade-off callout', () => {
 		const { container } = at('shelby');
 		const decisions = [...container.querySelectorAll('.decision')];
 
@@ -165,8 +187,12 @@ describe('case study route', () => {
 			expect(note).toHaveTextContent('Trade-off');
 			expect(note.textContent?.replace('Trade-off', '').trim().length).toBeGreaterThan(20);
 		}
-		expect(decisions[0]).toHaveTextContent(/CGM ingestion via local inter-app broadcast/);
-		expect(decisions[1]).toHaveTextContent(/flat basal insulin calculation/);
+		expect(within(decisions[0] as HTMLElement).getByRole('heading', { level: 3 })).toHaveTextContent(
+			'CGM ingestion via local inter-app broadcast',
+		);
+		expect(within(decisions[1] as HTMLElement).getByRole('heading', { level: 3 })).toHaveTextContent(
+			'Flat basal insulin calculation',
+		);
 	});
 
 	it('has no accessibility violations on a real case study', async () => {

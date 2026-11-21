@@ -75,9 +75,9 @@ export function CaseStudyView({ project, Body, prev, next }: CaseStudyViewProps)
             </div>
             <nav className="longform-pager" aria-label="More projects">
                 <ul>
-                    <li>{prev && <Link to={projectPath(prev.slug)}><span aria-hidden="true">← </span>Previous: {prev.title}</Link>}</li>
-                    <li><Link to="/">All projects</Link></li>
-                    <li>{next && <Link to={projectPath(next.slug)}>Next: {next.title}<span aria-hidden="true"> →</span></Link>}</li>
+                    {prev && <li className="longform-pager-prev"><Link to={projectPath(prev.slug)}><span aria-hidden="true">← </span>Previous: {prev.title}</Link></li>}
+                    {next && <li className="longform-pager-next"><Link to={projectPath(next.slug)}>Next: {next.title}<span aria-hidden="true"> →</span></Link></li>}
+                    <li className="longform-pager-all"><Link to="/">All projects</Link></li>
                 </ul>
             </nav>
         </article>

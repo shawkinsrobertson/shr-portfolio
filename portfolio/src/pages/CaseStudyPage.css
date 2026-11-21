@@ -122,14 +122,34 @@
 }
 
 .longform-pager ul {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px 16px;
     margin: 0;
     padding: 12px 0 0;
     list-style: none;
+}
+
+/* Previous and Next sit in fixed columns, so a missing neighbour leaves a gap instead of shifting the other. */
+.longform-pager-prev {
+    grid-column: 1;
+}
+
+.longform-pager-next {
+    grid-column: 2;
+    text-align: right;
+}
+
+.longform-pager-all {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.longform-pager a {
+    min-height: 44px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* Room to breathe between sections, paragraphs, and bullets. */

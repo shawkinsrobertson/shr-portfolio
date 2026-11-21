@@ -51,7 +51,9 @@ Shelby forks the algorithm by creating a `profile.mdiMode` that takes a user's b
 
 <Decision>
 
-**CGM ingestion via local inter-app broadcast** (requires juggluco or XDrip+ app install) instead of follower account allows for offline, continuous monitoring. This method is already used by open-source AID systems. This allows Shelby to work fully offline for MDI users.
+#### CGM ingestion via local inter-app broadcast
+
+Uses a local inter-app broadcast (requires juggluco or XDrip+ app install) instead of a follower account, which allows for offline, continuous monitoring. This method is already used by open-source AID systems. This allows Shelby to work fully offline for MDI users.
 
 <Callout type="tradeoff">
 
@@ -63,7 +65,9 @@ Requires the installation of a companion open-source CGM app which can cause fri
 
 <Decision>
 
-**Used a flat basal insulin calculation when modifying** the algorithm instead of using more precise calculations for varying types of basal insulins and their activity curves. I left this for a v2 round of development because it will require more research and consultation with clinical experts.
+#### Flat basal insulin calculation
+
+When modifying the algorithm, I used a flat basal insulin calculation instead of more precise calculations for varying types of basal insulins and their activity curves. I left this for a v2 round of development because it will require more research and consultation with clinical experts.
 
 <Callout type="tradeoff">
 
