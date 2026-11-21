@@ -36,6 +36,8 @@
 }
 
 .longform-title {
+    margin: 0;
+    letter-spacing: normal;
     font-size: xx-large;
     font-weight: 700;
 }
@@ -66,14 +68,9 @@
     border-radius: 8px;
 }
 
-.longform-imp, .longform-platform, .longform-stack, .longform-status {
-    margin-bottom: 0;
-}
-
 @media screen and (max-width: 600px) {
-    .longform-stats-list {
-        max-width: 100%;
-        display: flex;
+    /* Facts above, image below, instead of two cramped columns on a phone. */
+    .longform-callout {
         flex-direction: column;
     }
 
@@ -81,4 +78,56 @@
         flex-direction: column;
         gap: 2px;
     }
+}
+.longform-card-body {
+    width: 100%;
+    max-width: 70ch;
+}
+
+.longform-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+}
+
+.longform-facts dt {
+    font-weight: 700;
+}
+
+.longform-facts dd {
+    margin: 0;
+}
+
+.longform-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.longform-links a,
+.longform-pager a {
+    display: inline-block;
+    padding: 8px 4px;
+    color: var(--accent-text);
+}
+
+.longform-pager {
+    width: 100%;
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.longform-pager ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin: 0;
+    padding: 12px 0 0;
+    list-style: none;
 }

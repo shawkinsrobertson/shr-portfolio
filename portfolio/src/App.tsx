@@ -3,7 +3,7 @@ import { Layout } from './app/Layout';
 import {HomePage} from './pages/HomePage';
 import { BioPage } from './pages/bio';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { LongformCard } from './components/LongformCard/LongformCard';
+import { CaseStudyPage } from './pages/CaseStudyPage';
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/projects/:slug" element={<LongformCard />} />
+        <Route path="/projects/:slug" element={<CaseStudyPage />} />
         <Route path="/bio" element={<BioPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

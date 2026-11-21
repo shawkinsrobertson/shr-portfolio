@@ -115,6 +115,14 @@ export const getPublishedProjects = () => selectPublished(getAllProjects());
 /** A published project by slug. Unknown and draft slugs return undefined, so callers show the 404 page. */
 export const getProject = (slug: string | undefined) => getPublishedProjects().find((p) => p.slug === slug);
 
+/** The published projects either side of `slug`, in display order. Both are undefined for an unpublished slug. */
+export function getAdjacentProjects(slug: string): { prev?: Project; next?: Project } {
+	const published = getPublishedProjects();
+	const index = published.findIndex((p) => p.slug === slug);
+	if (index === -1) return {};
+	return { prev: published[index - 1], next: published[index + 1] };
+}
+
 export const projectPath = (slug: string) => `/projects/${slug}`;
 
 export const getProjectImageUrl = (file: string) => imageUrls[`../assets/project-img/${file}`];

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+	getAdjacentProjects,
 	getProject,
 	getPublishedProjects,
 	meetsPublishBar,
@@ -84,6 +85,22 @@ describe('selectPublished', () => {
 
 	it('sorts by order, lowest first', () => {
 		expect(selectPublished([complete, early]).map((p) => p.slug)).toEqual(['early', 'sample-app']);
+	});
+});
+
+describe('getAdjacentProjects', () => {
+	it('returns the published neighbours in order, with none past either end', () => {
+		const [first, second, , ...rest] = getPublishedProjects();
+		const last = rest.length ? rest[rest.length - 1] : getPublishedProjects()[getPublishedProjects().length - 1];
+
+		expect(getAdjacentProjects(first.slug)).toEqual({ prev: undefined, next: second });
+		expect(getAdjacentProjects(last.slug).next).toBeUndefined();
+		expect(getAdjacentProjects(last.slug).prev).toBeDefined();
+	});
+
+	it('returns nothing for an unknown or draft slug', () => {
+		expect(getAdjacentProjects('does-not-exist')).toEqual({ prev: undefined, next: undefined });
+		expect(getAdjacentProjects('scream-recorder')).toEqual({ prev: undefined, next: undefined });
 	});
 });
 
