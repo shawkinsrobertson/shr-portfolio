@@ -26,20 +26,8 @@
 
 .cta-btns {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
     margin-top: 16px;
-}
-
-.cta-btns a {
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    font-weight: 500;
-    color: var(--text-h);
-    transition: border-color 0.3s ease-in-out;
-}
-
-.cta-btns a:hover {
-    border-color: var(--accent-border);
 }

@@ -529,8 +529,15 @@ I applied the security-review lens (secure-by-default, least privilege, input ha
 
 ### 13.3 Personal data
 - **Email** is public in source and rendered as `mailto:`. Accepted, since contact is the purpose, but expect scraper spam. A simple mitigation if it becomes a problem: assemble the address client-side. Not required for launch.
-- **Resume PDF and headshot:** strip metadata before committing (PDF author/title/producer fields; JPEG EXIF including GPS and device info). Add a short checklist to the README. Use a neutral filename.
+- **Resume PDF and headshot:** see "Resume file hygiene" below. Strip metadata before committing (PDF author/title/producer fields; JPEG EXIF including GPS and device info). Add a short checklist to the README. Use a neutral filename.
 - No cookies, no tracking, no third-party fonts.
+
+**Resume file hygiene.** Static files are safe to serve, but a resume is a document that travels, so:
+- **PDF only for launch.** No script, no embedded files, no form fields. Export from the authoring tool with "Save as PDF" (keeps text selectable and tags for screen readers) rather than printing from a browser.
+- **Strip metadata** (author, producer, creation tool, file paths) with `exiftool -all= file.pdf` or `qpdf --linearize` after, and check with `exiftool`. Keep your name in the title field if you want; remove anything else.
+- **Contact details:** email only. A phone number or home address in a public file is scraped and sold.
+- **Serving:** `Content-Type: application/pdf` and `X-Content-Type-Options: nosniff` (already in the planned headers). Linked with the `download` attribute, which only works same-origin, so keep it on the site's own domain.
+- **If more formats are ever added:** never `.docm` or any macro-enabled format; never accept or generate a file from visitor input; generate every format from one source file at build time so they cannot drift out of sync (see notes.md).
 
 ### 13.4 Storage
 `localStorage` holds only the theme string. It is validated against an allow-list on read and never rendered unescaped.

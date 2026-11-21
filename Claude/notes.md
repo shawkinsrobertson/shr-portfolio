@@ -59,3 +59,19 @@ Options:
 4. **Truncate titles with an ellipsis.** Not recommended: it hides the project name from sighted users and zoomed users.
 
 My lean is option 2 for the nicest result, option 1 for the least risk. Neither is built yet.
+
+## Resume format (question from round 2)
+**Decision: PDF only for launch.** It is the standard for a reason: it looks identical everywhere, applicant-tracking systems and recruiters expect it, and a tagged PDF is accessible. Nothing about a single PDF is a security risk beyond file hygiene (metadata, embedded content), which is in SPEC 13.3.
+
+**More formats.** Cheap to serve, but the cost is keeping them in step: every résumé edit means regenerating each file, and a stale DOCX that disagrees with the PDF is worse than no DOCX. If you want it later, the safe way is one source file (a `resume.json` or MDX) that a build script turns into each format, with a test that checks they contain the same text.
+- Cheap and low risk: plain text, Markdown, JSON Resume (a known schema). All are just text generated from the source.
+- Moderate: DOCX (needs a library such as `docx`; never macro-enabled `.docm`).
+- Heavier: generating the PDF itself from the source (needs a headless browser or PDF library in the build).
+- A web résumé page (`/resume`) with print CSS is the nicest "fun" option: it is the most accessible and parseable format, it is itself portfolio work, and "Print to PDF" gives a PDF from the same source. Worth considering after launch.
+
+**Security.** The format is not the risk. The risks are: leaking metadata (author, tool, file paths), embedded scripts or files in the PDF, a public phone number or address getting scraped, and macro-enabled Office formats. Generating files from visitor input would be a real risk, and nothing here does.
+
+## Round 2 (S1.5 placeholders)
+- **Placeholders in place:** `public/resume/seamus-robertson-resume.pdf` (a one-page stub containing the text RESUME-PLACEHOLDER), `src/assets/headshot-placeholder.svg`, and the placeholder project screenshots. Replace the files and update `site.ts` (headshot alt) and each project's frontmatter `image`.
+- **Launch gate:** `npm run prelaunch` fails until all three are replaced. It is excluded from `npm test` and CI.
+- **Substack:** hidden. Set `substack` in `src/data/site.ts` to the real https URL when it exists.

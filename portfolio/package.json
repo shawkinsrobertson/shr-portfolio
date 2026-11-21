@@ -10,7 +10,8 @@
     "lint": "oxlint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prelaunch": "PRELAUNCH=1 vitest run"
   },
   "dependencies": {
     "react": "^19.3.1",

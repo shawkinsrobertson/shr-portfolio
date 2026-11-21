@@ -1,22 +1,23 @@
 import './Footer.css'
 import { useState } from 'react';
-import { bioStats } from '../../data/BioStats';
+import { site } from '../../data/site';
 
 export function Footer() {
     const [year] = useState(() => new Date().getFullYear());
 
     return (
         <footer className='footer'>
-            <p>© {year} {bioStats.name}</p>
+            <p>© {year} {site.name}</p>
             <ul aria-label="Contact">
-                <li><a href={`mailto:${bioStats.email}`}>Email</a></li>
+                <li><a href={`mailto:${site.email}`}>Email</a></li>
+                <li><a href={site.resume.href} download>Resume (PDF)</a></li>
                 <li>
-                    <a href={bioStats.linkedin} target="_blank" rel="noopener noreferrer">
+                    <a href={site.linkedin} target="_blank" rel="noopener noreferrer">
                         LinkedIn <span className="visually-hidden">(opens in new tab)</span>
                     </a>
                 </li>
                 <li>
-                    <a href={bioStats.github} target="_blank" rel="noopener noreferrer">
+                    <a href={site.github} target="_blank" rel="noopener noreferrer">
                         GitHub <span className="visually-hidden">(opens in new tab)</span>
                     </a>
                 </li>

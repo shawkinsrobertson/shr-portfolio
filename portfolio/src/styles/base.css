@@ -85,6 +85,12 @@ code {
   color: var(--accent-contrast);
 }
 
+.btn-secondary {
+  background: transparent;
+  color: var(--accent-text);
+  border-color: var(--accent-border);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
