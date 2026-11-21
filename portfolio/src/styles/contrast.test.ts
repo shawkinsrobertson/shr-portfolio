@@ -18,7 +18,9 @@ const pairs: Pair[] = [
 	['--accent-text', '--bg', TEXT, 'links and accent-colored text'],
 	['--focus', '--bg', NON_TEXT, 'focus ring'],
 	['--accent-contrast', '--accent-fill', TEXT, 'label on an accent-filled button'],
+	['--accent-contrast', '--accent-fill-hover', TEXT, 'label on a hovered accent-filled button'],
 	['--accent-text', '--accent-bg', TEXT, 'accent text on its tinted pill (blended over --bg)'],
+	['--award-contrast', '--award', TEXT, 'label on the gold award chip'],
 ];
 
 const themes = { light: theme('light'), dark: theme('dark') };
@@ -33,6 +35,25 @@ describe.each(Object.entries(themes))('%s theme contrast', (_name, css) => {
 		const ratio = contrast(over(color(fg), back), back);
 
 		expect(ratio).toBeGreaterThanOrEqual(min);
+	});
+});
+
+describe.each(Object.entries(themes))('%s theme accent', (_name, css) => {
+	const tokens = parseTokens(css);
+
+	it('uses one accent color for fills, text, rings, and borders (no second shade)', () => {
+		const accent = resolve(tokens, '--accent');
+
+		for (const name of ['--accent-fill', '--accent-text', '--focus', '--accent-border']) {
+			expect(resolve(tokens, name), name).toBe(accent);
+		}
+	});
+
+	it('tints the accent background with that same accent color', () => {
+		const { r, g, b } = toRgba(resolve(tokens, '--accent'));
+		const tint = toRgba(resolve(tokens, '--accent-bg'));
+
+		expect([tint.r, tint.g, tint.b]).toEqual([r, g, b]);
 	});
 });
 

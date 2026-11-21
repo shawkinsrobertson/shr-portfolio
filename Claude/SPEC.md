@@ -39,6 +39,7 @@ This spec turns INTENT.md into buildable work against the existing React 19 + Vi
 | D13 | Lean copy and project order toward startup and React/TypeScript work. | Chat |
 | D14 | Opossum base is an opaque vertical gradient `#505200` to `#5E3A00`, both stops at 100% opacity, top to bottom. | Chat |
 | D15 | Proposed contrast fixes accepted (light secondary text, dark accent text, glass accent text; opossum text tokens in 6.4). | Chat |
+| D18 | One accent color per theme for fills, text, rings, borders, and callouts. Light keeps `#0019D2`. Dark becomes `#6B95FF` (hue 223°, bluer than the pale periwinkle that read as purple), with a dark `#232323` button label because a fill dark enough for a white label cannot also be readable text on `#232323`. Enforced by `contrast.test.ts`. | Chat |
 | D17 | Opossum accent is `#FF914E`. Verified: 3.69 to 4.52:1 on the gradient (fine for rings and fills, not small text), and `#232323` button text on it is 7.04:1. | Chat |
 | D16 | Nov 27 cut line accepted. Light and dark are the v1 benchmark. If only one extra theme can pass AA, **opossum takes priority over glass**. | Chat |
 
@@ -225,8 +226,8 @@ Type scale: keep the existing `h1 56/36`, `h2 24/20`, base `18/16` at the 1024px
 | `--bg` | `#FBFBFB` | `#232323` | gradient (6.3) | `linear-gradient(180deg, #505200 0%, #5E3A00 100%)` (D14) |
 | `--text-primary` | `#00052F` | `#FBFBFB` | `#FBFBFB` | `#FBFBFB` |
 | `--text-secondary` | `#6A6A6A` **[adjusted from Figma `#8D8D8D`]** | `#8D8D8D` | `#8D8D8D` | `#F5B94A` **[adjusted from Figma `#D38200`]** |
-| `--accent` (fills, decoration) | `#0019D2` | `#0019D2` | `#0019D2` | `#FF914E` **[owner's choice, replaces Figma `#BA4400`]** |
-| `--accent-text` / `--focus` (text, links, rings) | `#0019D2` | `#8C9BFF` **[adjusted]** | `#A9B4FF` **[adjusted]** | `#FFB080` **[adjusted]** |
+| `--accent` (one color for fills, text, rings, borders, callouts) | `#0019D2` | `#6B95FF` **[D18]** | `#0019D2` | `#FF914E` **[owner's choice, replaces Figma `#BA4400`]** |
+| `--accent-text` / `--focus` (text, links, rings) | same as `--accent` | same as `--accent` | `#A9B4FF` **[adjusted]** | `#FFB080` **[adjusted]** |
 
 Note: the opossum frame's swatch **labels** still read `#0019D2` and `#8D8D8D`, but the swatch **fills** are `#BA4400` and `#D38200`. I used the fills as the starting point, then adjusted for contrast below. The Figma frame could be updated to match.
 
@@ -358,10 +359,10 @@ Frontmatter requires `remark-frontmatter` and `remark-mdx-frontmatter` (section 
 
 ### 8.2 Loading
 
-- **Metadata** (cards, nav, sitemap, tests): `import.meta.glob('../content/projects/*.mdx', { eager: true, import: 'frontmatter' })`. Small and eager.
-- **Body** (case study page): `import.meta.glob('../content/projects/*.mdx')` (lazy), rendered through `React.lazy` + `Suspense`, so the home page does not ship every study's prose (P5).
+- **One eager glob** (`import.meta.glob('../content/projects/*.mdx', { eager: true })`) gives each project's `frontmatter` (cards, nav, sitemap, tests) and its body component. MDX bodies are therefore in the main bundle (about 11 KB uncompressed for six studies). A lazy body glob alongside the frontmatter glob does not split anything, because Rollup keeps a module that is also imported statically in the same chunk. **Revisit in PLAN S3.6** if the JS budget needs it: extract frontmatter at build time (a small Vite plugin exposing a virtual module) so bodies can load on demand.
 - **Images:** resolved from `src/assets/project-img/` through a glob with `?url` so they keep Vite content hashes.
-- `lib/projects.ts` exposes `getPublishedProjects()` (filtered by `draft` and the publish bar, sorted by `order`, startup/React/TS-relevant first per D13) and `getProject(slug)`. Everything else (Nav, HomePage, routes, sitemap) calls these two functions. This replaces `hasLongFormContent` and `getCaseStudySlug` (P7). The slug is explicit in frontmatter, not derived from the title, so URLs stay stable and a title edit cannot break a shared link.
+- `lib/projects.ts` exposes `getAllProjects()`, `getPublishedProjects()` (drafts and projects missing the publish bar removed, sorted by `order`, startup/React/TS-relevant first per D13), `getProject(slug)` (published only), `projectPath(slug)`, `getProjectBody(slug)`, and `getProjectImageUrl(file)`. Everything else (Nav, HomePage, routes, sitemap) calls these. This replaced `hasLongFormContent` and `getCaseStudySlug` (P7), and `CaseStudies.tsx` is deleted. The slug is explicit in frontmatter, not derived from the title, so URLs stay stable and a title edit cannot break a shared link.
+- Projects whose frontmatter fails `validateFrontmatter` are ignored at runtime, and `content.test.ts` fails the build if any file is invalid, so a typo is caught in CI instead of silently dropping a study.
 
 ### 8.3 Publish bar (D3)
 
@@ -371,7 +372,8 @@ A study is public only if `draft: false` **and** it has: non-empty `title`, `tag
 
 `mdx-components.tsx` maps Markdown elements to styled, accessible components and provides:
 - `Figure` (requires `alt`; optional caption)
-- `Callout` (variants: note, bug, learning; text label included, not color-only)
+- `Callout` (variants: note, bug, learning, tradeoff; text label included, not color-only)
+- `Decision` (a plain group for one "What I Did" decision and its trade-off callout; no heading or landmark, so the outline is unchanged)
 - `CodeBlock` (monospace, horizontally scrollable, keyboard-focusable when it overflows)
 - Links: external links get `target="_blank"` with `rel="noopener noreferrer"` and a visually hidden "(opens in new tab)".
 
@@ -381,7 +383,7 @@ Heading rule: the page `<h1>` is the project title (from frontmatter). MDX bodie
 
 | # | Study | Action |
 |---|---|---|
-| 1 | Do Shit | Converted (experiment branch). Add frontmatter. |
+| 1 | Do Shit | Converted. Published as `todo-app`. |
 | 2-7 | Empty or partial entries | Create `.mdx` files with `draft: true`. They stay hidden until written. |
 | 8 | No Guts No Glory | Convert. Its JSX bold lead-ins become Markdown `**bold**`. |
 
@@ -410,7 +412,7 @@ As section 7.3.
 ### 9.4 Hero (`Hero.tsx`, fixes A4, A10)
 - `h1` name; the role line becomes a `<p>` (not `h3`).
 - CTAs: "Email me" (`mailto:`) and "Download resume" (PDF). Both always rendered (D4); the conditional is deleted. Styled as real buttons on the semantic tokens, replacing the undefined `liquid-glass` class (A10).
-- Resume link includes file type and size in its accessible text, for example "Download resume (PDF)".
+- Resume link text is "Download resume"; the file type is announced to screen readers only, as visually hidden "(PDF)".
 - Copy leans to startup and React/TypeScript (D13). The current tagline stays (D12).
 
 ### 9.5 ProjectCard (`ProjectCard.tsx`, fixes A5, A11)
@@ -528,8 +530,15 @@ I applied the security-review lens (secure-by-default, least privilege, input ha
 
 ### 13.3 Personal data
 - **Email** is public in source and rendered as `mailto:`. Accepted, since contact is the purpose, but expect scraper spam. A simple mitigation if it becomes a problem: assemble the address client-side. Not required for launch.
-- **Resume PDF and headshot:** strip metadata before committing (PDF author/title/producer fields; JPEG EXIF including GPS and device info). Add a short checklist to the README. Use a neutral filename.
+- **Resume PDF and headshot:** see "Resume file hygiene" below. Strip metadata before committing (PDF author/title/producer fields; JPEG EXIF including GPS and device info). Add a short checklist to the README. Use a neutral filename.
 - No cookies, no tracking, no third-party fonts.
+
+**Resume file hygiene.** Static files are safe to serve, but a resume is a document that travels, so:
+- **PDF only for launch.** No script, no embedded files, no form fields. Export from the authoring tool with "Save as PDF" (keeps text selectable and tags for screen readers) rather than printing from a browser.
+- **Strip metadata** (author, producer, creation tool, file paths) with `exiftool -all= file.pdf` or `qpdf --linearize` after, and check with `exiftool`. Keep your name in the title field if you want; remove anything else.
+- **Contact details:** email only. A phone number or home address in a public file is scraped and sold.
+- **Serving:** `Content-Type: application/pdf` and `X-Content-Type-Options: nosniff` (already in the planned headers). Linked with the `download` attribute, which only works same-origin, so keep it on the site's own domain.
+- **If more formats are ever added:** never `.docm` or any macro-enabled format; never accept or generate a file from visitor input; generate every format from one source file at build time so they cannot drift out of sync (see notes.md).
 
 ### 13.4 Storage
 `localStorage` holds only the theme string. It is validated against an allow-list on read and never rendered unescaped.

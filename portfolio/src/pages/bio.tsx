@@ -1,38 +1,48 @@
 import './bio.css'
-import {bioStats} from '../data/BioStats';
+import { SafeLink } from '../components/mdx/SafeLink';
+import { httpsUrl, site, type SiteData } from '../data/site';
 
 
-export const BioPage = () => {
+export const BioPage = ({ data = site }: { data?: SiteData }) => {
+    const substack = httpsUrl(data.substack);
+
     return (
         <div className="bio-page">
             <div className="bio-header">
                 <div className='bio-headline-container'>
                     <div className='bio-img'>
-                        <div className='bio-placeholder-image'></div>
+                        <img
+                            className='bio-headshot'
+                            src={data.headshot.src}
+                            alt={data.headshot.alt}
+                            width={data.headshot.width}
+                            height={data.headshot.height}
+                        />
                     </div>
                     <div className="bio-big-info">
-                        <h1>{bioStats.name}</h1>
+                        <h1>{data.name}</h1>
                         <div className="bio-title-location">
-                            <h2>{bioStats.title}</h2>
-                            <p>{bioStats.location}</p>
+                            <p className="bio-title">{data.title}</p>
+                            <p>{data.location}</p>
                     </div>
                     </div>
                 </div>
-                <div className="bio-links">
-                    <p><a href={`mailto:${bioStats.email}`}><strong>Email</strong></a></p>
-                    <p><a href={bioStats.substack} target="_blank" rel="noopener noreferrer"><strong>Substack</strong></a></p>
-                    <p><a href={bioStats.linkedin} target="_blank" rel="noopener noreferrer"><strong>LinkedIn</strong></a></p>
-                    <p><a href={bioStats.github} target="_blank" rel="noopener noreferrer"><strong>GitHub</strong></a></p>
-                </div>
+                <ul className="bio-links" aria-label="Contact">
+                    <li><SafeLink href={`mailto:${data.email}`}>Email</SafeLink></li>
+                    <li><SafeLink href={data.linkedin}>LinkedIn</SafeLink></li>
+                    <li><SafeLink href={data.github}>GitHub</SafeLink></li>
+                    {substack && <li><SafeLink href={substack}>Substack</SafeLink></li>}
+                    <li><a href={data.resume.href} download>Resume <span className="visually-hidden">(PDF)</span></a></li>
+                </ul>
             </div>
-            <section className="bio-business-content">
-                <p>{bioStats.business}</p>
+            <section className="bio-business-content" aria-labelledby="bio-work-heading">
+                <h2 id="bio-work-heading" className="visually-hidden">Professional background</h2>
+                <p>{data.business}</p>
             </section>
-            <section className="bio-personal-content">
-                <p>{bioStats.personal}</p>
+            <section className="bio-personal-content" aria-labelledby="bio-personal-heading">
+                <h2 id="bio-personal-heading" className="visually-hidden">Personal</h2>
+                <p>{data.personal}</p>
             </section>
         </div>
     )
 };
-
-

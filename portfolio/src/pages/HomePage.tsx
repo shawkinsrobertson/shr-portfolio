@@ -1,11 +1,13 @@
 import { Hero } from '../components/Hero/Hero'
 import { ProjectCard } from '../components/ProjectCard/ProjectCard'
-import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../data/CaseStudies'
+import { getPublishedProjects, projectPath } from '../lib/projects'
 import './HomePage.css'
 
 
 
 export function HomePage() {
+    const projects = getPublishedProjects();
+
     return (
         <>
         <section id="hero">
@@ -14,41 +16,23 @@ export function HomePage() {
 		title='Front-End Developer'
 		tagline='Building clever, silly, beautiful, accessible shit.' />
 	</section>
-    <section id="projects-handcode">
-        <h2>Hand Coded</h2>
-        <div className='case-study-cards'>
-          {caseStudies
-          .filter(study => hasLongFormContent(study) && study.agentic === false)
-          .map((study: (typeof caseStudies)[number]) =>(
-            <ProjectCard className='case-study-card'
-               key={study.id}
-               title={study.title}
-               tagline={study.tagline}
-               description={study.description}
-               stack={study.stack}
-               role={study.role}
-               href={`/projects/${getCaseStudySlug(study.title)}`}
-               achievement={study.achievement}  />
+    <section id="projects">
+        <h2>Selected projects</h2>
+        <ul className='case-study-cards' aria-label="Projects">
+          {projects.map((project) =>(
+            <li key={project.slug}>
+              <ProjectCard
+                 title={project.title}
+                 tagline={project.tagline}
+                 description={project.description}
+                 stack={project.stack}
+                 role={project.role}
+                 href={projectPath(project.slug)}
+                 agentic={project.agentic}
+                 achievement={project.achievement}  />
+            </li>
           ))}
-        </div>
-      </section>
-      <section id='projects-agentic'>
-        <h2>Agentic</h2>
-        <div className='case-study-cards'>
-          {caseStudies
-          .filter(study => hasLongFormContent(study) && study.agentic === true)
-          .map((study: (typeof caseStudies)[number]) =>(
-            <ProjectCard className='case-study-card'
-               key={study.id}
-               title={study.title}
-               tagline={study.tagline}
-               description={study.description}
-               stack={study.stack}
-               role={study.role}
-               href={`/projects/${getCaseStudySlug(study.title)}`}
-               achievement={study.achievement}  />
-          ))}
-        </div>
+        </ul>
       </section>
       </>
     )};

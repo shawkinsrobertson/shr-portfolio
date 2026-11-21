@@ -5,12 +5,17 @@
   --bg: #FBFBFB;
   --text-primary: #00052F;
   --text-secondary: #6A6A6A;
-  --accent-fill: #0019D2;
+  /* One accent for fills, text, rings, borders, and callouts (contrast.test.ts enforces that). */
+  --accent: #0019D2;
+  --accent-fill: var(--accent);
   --accent-contrast: #FBFBFB;
-  --accent-text: #0019D2;
-  --focus: #0019D2;
-  --accent-bg: rgba(0, 25, 210, 0.1);
-  --accent-border: rgba(0, 25, 210, 0.5);
+  --accent-fill-hover: #0014A8;
+  --accent-text: var(--accent);
+  --focus: var(--accent);
+  --accent-bg: rgba(0, 25, 210, 0.08);
+  --accent-border: var(--accent);
+  --award: #DAA520; /* goldenrod: the ribbon icon and the award chip */
+  --award-contrast: #232323;
   --border: #E0E0E0;
   --code-bg: #EFEFEF;
   --social-bg: rgba(239, 239, 239, 0.5);

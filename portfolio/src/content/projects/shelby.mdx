@@ -1,0 +1,87 @@
+---
+slug: shelby
+title: Shelby
+tagline: A modern diabetes assistant for MDI
+description: An AI-integrated treatment logger and prediction engine for type 1 diabetes designed for MDI users. Built on oref0, the open-source algorithm closed-loop pump systems already trust, modified for fixed basal injections.
+agentic: true
+stack: [react native, TypeScript, n8n, Claude API, Nightscout, XDrip+]
+role: Agentic SDLC
+platform: Cross-Platform mobile (React/Expo)
+status: Prototype/Proof of concept/Research and testing
+achievement: Top 100 at Kanz AI Hackathon July 2026
+order: 10
+draft: false
+# TODO (PLAN S1.5): replace the placeholder image and its alt text with a real screenshot.
+image:
+  file: feature-02.png
+  alt: Placeholder image for the Shelby case study (screenshot coming soon)
+  width: 3200
+  height: 1800
+---
+
+### What It Is
+
+An open-source diabetes treatment application designed to offer flexible, continuous treatment between pump use and multiple daily injections.
+
+### What It Solves
+
+Roughly a third of people with Type 1 diabetes use multiple daily injections (MDI) rather than pumps. Most predictive treatment tools are built for insulin pumps, creating a gap in care for those who do not use them or who wish to switch between the two treatment methods.
+
+### How It Does It
+
+tl;dr: Shelby uses a modified closed-loop pump algorithm, Oref0, and adapts it for those who inject basal insulin.
+
+The original Oref0 algorithm calculates and executes changes to an insulin pump's basal rate based on blood glucose data received from a continuous glucose monitor (CGM) to keep glucose levels within the normal range of 70-180mg/dl (3.9–10.0 mmol/L).
+
+People treating diabetes with injections will inject a fixed dose of basal insulin that cannot be changed, so any prediction engine for MDI will need to fork to account for a fixed basal rate, suggesting carbs instead of changes in basal rate.
+
+Shelby forks the algorithm by creating a `profile.mdiMode` that takes a user's basal insulin dosage and creates a steady `profile.current_basal` to compute `insulinReq`. This profile then feeds calculations the fixed basal rate and calculates `carbsSuggested` from `excessInsulin` instead of a basal rate change.
+
+### Features
+
+- Unified treatment logging (carbs, multiple insulin types, activity)
+- Connect bluetooth glucose meters (bluetooth pens such as InPen coming soon)
+- CGM ingestion from Juggluco/XDrip+/XDrip4iOS/NightScout
+- Pump status from NightScout (IOB, COB, loop status, temp targets)
+- Ambulatory glucose profile, TIR, mean/median glucose, standard deviation, and estimated A1c%
+- Android/Apple Health Kit sync pulls activity and nutrition logs from other apps
+- AI assistant for patterns and insights and discussion topics with care team
+
+### What I Did
+
+<Decision>
+
+#### CGM ingestion via local inter-app broadcast
+
+Uses a local inter-app broadcast (requires juggluco or XDrip+ app install) instead of a follower account, which allows for offline, continuous monitoring. This method is already used by open-source AID systems. This allows Shelby to work fully offline for MDI users.
+
+<Callout type="tradeoff">
+
+Requires the installation of a companion open-source CGM app which can cause friction and increase cognitive load for users.
+
+</Callout>
+
+</Decision>
+
+<Decision>
+
+#### Flat basal insulin calculation
+
+When modifying the algorithm, I used a flat basal insulin calculation instead of more precise calculations for varying types of basal insulins and their activity curves. I left this for a v2 round of development because it will require more research and consultation with clinical experts.
+
+<Callout type="tradeoff">
+
+This kind of oversimplification can lead to over/under suggestions with treatment which can be literally life or death for users trusting this app to offer sound suggestions. The primary reason this app is not in the app store.
+
+</Callout>
+
+</Decision>
+
+### Build Process
+
+Product concept and UI design, review and testing. Built with Claude Code. This was a project for the Kanz AI Hackathon July 2026. Scored in the top 100 out of 3,500 project submissions.
+
+### What Is Next
+
+- Continued UI refinements: CGM graph scaling and contrast
+- Build out data export and future clinician sync/integration (perhaps Tidepool or own platform).

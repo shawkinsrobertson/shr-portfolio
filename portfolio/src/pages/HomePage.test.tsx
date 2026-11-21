@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import App from './../App';
-import { caseStudies, hasLongFormContent } from '../data/CaseStudies';
+import { getPublishedProjects } from '../lib/projects';
 
 const renderHome = () =>
 	render(
@@ -32,13 +32,26 @@ describe('HomePage', () => {
 		});
 	});
 
-	it('titles each project section with an h2 and each card with an h3', () => {
+	it('lists every published project as one card with a badge, under a single h2', () => {
 		renderHome();
 		const main = within(screen.getByRole('main'));
-		const sectionTitles = main.getAllByRole('heading', { level: 2 }).map((h) => h.textContent);
+		const published = getPublishedProjects();
 
-		expect(sectionTitles).toEqual(expect.arrayContaining(['Hand Coded', 'Agentic']));
-		const published = caseStudies.filter(hasLongFormContent);
-		expect(main.getAllByRole('heading', { level: 3 })).toHaveLength(published.length);
+		expect(main.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual(['Selected projects']);
+		expect(main.getAllByRole('heading', { level: 3 }).map((h) => h.textContent)).toEqual(published.map((p) => p.title));
+		for (const project of published) {
+			const card = main.getByRole('heading', { level: 3, name: project.title }).closest('article')!;
+			expect(within(card).getByText(project.agentic ? 'Agentic' : 'Hand-coded')).toBeInTheDocument();
+		}
+	});
+
+	it('presents the cards as a list so a screen reader announces how many there are', () => {
+		renderHome();
+		const list = screen.getByRole('list', { name: /projects/i });
+
+		// Direct items only: each card also contains its own stack list.
+		const cards = within(list).getAllByRole('listitem').filter((li) => li.parentElement === list);
+
+		expect(cards).toHaveLength(getPublishedProjects().length);
 	});
 });

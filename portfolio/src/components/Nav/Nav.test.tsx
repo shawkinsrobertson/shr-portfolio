@@ -2,11 +2,11 @@ import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { caseStudies, getCaseStudySlug, hasLongFormContent } from '../../data/CaseStudies';
+import { getPublishedProjects, projectPath } from '../../lib/projects';
 import { axe } from '../../test/axe';
 import { Nav } from './Nav';
 
-const published = caseStudies.filter(hasLongFormContent);
+const published = getPublishedProjects();
 
 function Where() {
 	return <p data-testid="where">{useLocation().pathname}</p>;
@@ -49,21 +49,18 @@ describe('Nav', () => {
 	it('hides the project list until opened', () => {
 		renderNav();
 
-		for (const study of published) {
-			expect(screen.queryByRole('link', { name: study.title })).not.toBeInTheDocument();
+		for (const project of published) {
+			expect(screen.queryByRole('link', { name: project.title })).not.toBeInTheDocument();
 		}
 	});
 
-	it('lists every published study with its /projects/ link when opened', async () => {
+	it('lists every published project with its /projects/ link when opened', async () => {
 		renderNav();
 		await userEvent.click(projectsButton());
 
 		expect(projectsButton()).toHaveAttribute('aria-expanded', 'true');
-		for (const study of published) {
-			expect(screen.getByRole('link', { name: study.title })).toHaveAttribute(
-				'href',
-				`/projects/${getCaseStudySlug(study.title)}`,
-			);
+		for (const project of published) {
+			expect(screen.getByRole('link', { name: project.title })).toHaveAttribute('href', projectPath(project.slug));
 		}
 	});
 
@@ -114,7 +111,7 @@ describe('Nav', () => {
 		await userEvent.click(projectsButton());
 		await userEvent.click(screen.getByRole('link', { name: published[0].title }));
 
-		expect(screen.getByTestId('where')).toHaveTextContent(`/projects/${getCaseStudySlug(published[0].title)}`);
+		expect(screen.getByTestId('where')).toHaveTextContent(projectPath(published[0].slug));
 		expect(projectsButton()).toHaveAttribute('aria-expanded', 'false');
 	});
 
