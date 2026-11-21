@@ -10,11 +10,9 @@
   --radius-button: 12px;
   --space-section: 3rem;
 
-  /* Legacy names used by components that have not been rewritten yet (PLAN S1.x).
-     `--accent` was used for text and links, so it maps to the accessible text token. */
+  /* Legacy names used by components that have not been rewritten yet. */
   --text: var(--text-primary);
   --text-h: var(--text-primary);
-  --accent: var(--accent-text);
 
   font: 18px/1.45 var(--sans);
   letter-spacing: 0.18px;

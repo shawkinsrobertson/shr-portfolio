@@ -39,6 +39,7 @@ This spec turns INTENT.md into buildable work against the existing React 19 + Vi
 | D13 | Lean copy and project order toward startup and React/TypeScript work. | Chat |
 | D14 | Opossum base is an opaque vertical gradient `#505200` to `#5E3A00`, both stops at 100% opacity, top to bottom. | Chat |
 | D15 | Proposed contrast fixes accepted (light secondary text, dark accent text, glass accent text; opossum text tokens in 6.4). | Chat |
+| D18 | One accent color per theme for fills, text, rings, borders, and callouts. Light keeps `#0019D2`. Dark becomes `#6B95FF` (hue 223°, bluer than the pale periwinkle that read as purple), with a dark `#232323` button label because a fill dark enough for a white label cannot also be readable text on `#232323`. Enforced by `contrast.test.ts`. | Chat |
 | D17 | Opossum accent is `#FF914E`. Verified: 3.69 to 4.52:1 on the gradient (fine for rings and fills, not small text), and `#232323` button text on it is 7.04:1. | Chat |
 | D16 | Nov 27 cut line accepted. Light and dark are the v1 benchmark. If only one extra theme can pass AA, **opossum takes priority over glass**. | Chat |
 
@@ -225,8 +226,8 @@ Type scale: keep the existing `h1 56/36`, `h2 24/20`, base `18/16` at the 1024px
 | `--bg` | `#FBFBFB` | `#232323` | gradient (6.3) | `linear-gradient(180deg, #505200 0%, #5E3A00 100%)` (D14) |
 | `--text-primary` | `#00052F` | `#FBFBFB` | `#FBFBFB` | `#FBFBFB` |
 | `--text-secondary` | `#6A6A6A` **[adjusted from Figma `#8D8D8D`]** | `#8D8D8D` | `#8D8D8D` | `#F5B94A` **[adjusted from Figma `#D38200`]** |
-| `--accent` (fills, decoration) | `#0019D2` | `#0019D2` | `#0019D2` | `#FF914E` **[owner's choice, replaces Figma `#BA4400`]** |
-| `--accent-text` / `--focus` (text, links, rings) | `#0019D2` | `#8C9BFF` **[adjusted]** | `#A9B4FF` **[adjusted]** | `#FFB080` **[adjusted]** |
+| `--accent` (one color for fills, text, rings, borders, callouts) | `#0019D2` | `#6B95FF` **[D18]** | `#0019D2` | `#FF914E` **[owner's choice, replaces Figma `#BA4400`]** |
+| `--accent-text` / `--focus` (text, links, rings) | same as `--accent` | same as `--accent` | `#A9B4FF` **[adjusted]** | `#FFB080` **[adjusted]** |
 
 Note: the opossum frame's swatch **labels** still read `#0019D2` and `#8D8D8D`, but the swatch **fills** are `#BA4400` and `#D38200`. I used the fills as the starting point, then adjusted for contrast below. The Figma frame could be updated to match.
 
@@ -411,7 +412,7 @@ As section 7.3.
 ### 9.4 Hero (`Hero.tsx`, fixes A4, A10)
 - `h1` name; the role line becomes a `<p>` (not `h3`).
 - CTAs: "Email me" (`mailto:`) and "Download resume" (PDF). Both always rendered (D4); the conditional is deleted. Styled as real buttons on the semantic tokens, replacing the undefined `liquid-glass` class (A10).
-- Resume link text is "Download resume" (owner chose to leave the file type off the visible text).
+- Resume link text is "Download resume"; the file type is announced to screen readers only, as visually hidden "(PDF)".
 - Copy leans to startup and React/TypeScript (D13). The current tagline stays (D12).
 
 ### 9.5 ProjectCard (`ProjectCard.tsx`, fixes A5, A11)

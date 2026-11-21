@@ -38,6 +38,25 @@ describe.each(Object.entries(themes))('%s theme contrast', (_name, css) => {
 	});
 });
 
+describe.each(Object.entries(themes))('%s theme accent', (_name, css) => {
+	const tokens = parseTokens(css);
+
+	it('uses one accent color for fills, text, rings, and borders (no second shade)', () => {
+		const accent = resolve(tokens, '--accent');
+
+		for (const name of ['--accent-fill', '--accent-text', '--focus', '--accent-border']) {
+			expect(resolve(tokens, name), name).toBe(accent);
+		}
+	});
+
+	it('tints the accent background with that same accent color', () => {
+		const { r, g, b } = toRgba(resolve(tokens, '--accent'));
+		const tint = toRgba(resolve(tokens, '--accent-bg'));
+
+		expect([tint.r, tint.g, tint.b]).toEqual([r, g, b]);
+	});
+});
+
 describe('contrast helper', () => {
 	it('matches known WCAG values', () => {
 		expect(contrast(toRgba('#000000'), toRgba('#ffffff'))).toBeCloseTo(21, 1);

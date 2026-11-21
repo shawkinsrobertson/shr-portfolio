@@ -32,7 +32,7 @@ export const BioPage = ({ data = site }: { data?: SiteData }) => {
                     <li><SafeLink href={data.linkedin}>LinkedIn</SafeLink></li>
                     <li><SafeLink href={data.github}>GitHub</SafeLink></li>
                     {substack && <li><SafeLink href={substack}>Substack</SafeLink></li>}
-                    <li><a href={data.resume.href} download>Resume</a></li>
+                    <li><a href={data.resume.href} download>Resume <span className="visually-hidden">(PDF)</span></a></li>
                 </ul>
             </div>
             <section className="bio-business-content" aria-labelledby="bio-work-heading">

@@ -26,7 +26,7 @@ describe('Footer', () => {
 	it('links to the resume PDF', () => {
 		render(<Footer />);
 
-		expect(screen.getByRole('link', { name: /^resume$/i })).toHaveAttribute('href', site.resume.href);
+		expect(screen.getByRole('link', { name: /^resume \(pdf\)$/i })).toHaveAttribute('href', site.resume.href);
 	});
 
 	it('opens external links safely and announces the new tab', () => {

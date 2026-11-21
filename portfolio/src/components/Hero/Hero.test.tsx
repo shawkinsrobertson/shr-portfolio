@@ -16,10 +16,19 @@ describe('Hero', () => {
 
 	it('always offers the resume', () => {
 		renderHero();
-		const resume = screen.getByRole('link', { name: /^download resume$/i });
+		const resume = screen.getByRole('link', { name: /^download resume \(pdf\)$/i });
 
 		expect(resume).toHaveAttribute('href', site.resume.href);
 		expect(resume).toHaveAttribute('download');
+	});
+
+	it('shows "Download resume" and keeps the file type for screen readers only', () => {
+		renderHero();
+		const resume = screen.getByRole('link', { name: /download resume/i });
+
+		expect(resume.querySelector('.visually-hidden')).toHaveTextContent('(PDF)');
+		expect(resume.querySelector(':scope > :not(.visually-hidden)')).toBeNull();
+		expect(resume.firstChild?.textContent).toBe('Download resume ');
 	});
 
 	it('offers email', () => {

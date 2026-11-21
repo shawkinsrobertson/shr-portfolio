@@ -10,7 +10,7 @@ export function Footer() {
             <p>© {year} {site.name}</p>
             <ul aria-label="Contact">
                 <li><a href={`mailto:${site.email}`}>Email</a></li>
-                <li><a href={site.resume.href} download>Resume</a></li>
+                <li><a href={site.resume.href} download>Resume <span className="visually-hidden">(PDF)</span></a></li>
                 <li>
                     <a href={site.linkedin} target="_blank" rel="noopener noreferrer">
                         LinkedIn <span className="visually-hidden">(opens in new tab)</span>
