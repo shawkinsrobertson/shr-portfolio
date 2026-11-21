@@ -16,41 +16,23 @@ export function HomePage() {
 		title='Front-End Developer'
 		tagline='Building clever, silly, beautiful, accessible shit.' />
 	</section>
-    <section id="projects-handcode">
-        <h2>Hand Coded</h2>
-        <div className='case-study-cards'>
-          {projects
-          .filter(project => !project.agentic)
-          .map((project) =>(
-            <ProjectCard className='case-study-card'
-               key={project.slug}
-               title={project.title}
-               tagline={project.tagline}
-               description={project.description}
-               stack={project.stack}
-               role={project.role}
-               href={projectPath(project.slug)}
-               achievement={project.achievement}  />
+    <section id="projects">
+        <h2>Selected projects</h2>
+        <ul className='case-study-cards' aria-label="Projects">
+          {projects.map((project) =>(
+            <li key={project.slug}>
+              <ProjectCard
+                 title={project.title}
+                 tagline={project.tagline}
+                 description={project.description}
+                 stack={project.stack}
+                 role={project.role}
+                 href={projectPath(project.slug)}
+                 agentic={project.agentic}
+                 achievement={project.achievement}  />
+            </li>
           ))}
-        </div>
-      </section>
-      <section id='projects-agentic'>
-        <h2>Agentic</h2>
-        <div className='case-study-cards'>
-          {projects
-          .filter(project => project.agentic)
-          .map((project) =>(
-            <ProjectCard className='case-study-card'
-               key={project.slug}
-               title={project.title}
-               tagline={project.tagline}
-               description={project.description}
-               stack={project.stack}
-               role={project.role}
-               href={projectPath(project.slug)}
-               achievement={project.achievement}  />
-          ))}
-        </div>
+        </ul>
       </section>
       </>
     )};
