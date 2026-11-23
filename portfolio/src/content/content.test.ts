@@ -34,7 +34,7 @@ describe('project content', () => {
 
 		it('points at an image file that exists', () => {
 			if (!project.image) return;
-			expect(existsSync(resolve(process.cwd(), 'src/assets/project-img', project.image.file))).toBe(true);
+			expect(existsSync(resolve(process.cwd(), 'src/content/projects/case-study-img', project.image.file))).toBe(true);
 		});
 
 		it('only links to https URLs', () => {

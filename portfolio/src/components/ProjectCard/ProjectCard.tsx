@@ -1,9 +1,11 @@
 import './ProjectCard.css'
 import { Link } from 'react-router'
 import { Badge } from '../Badge/Badge'
+import { getProjectImageUrl } from '../../lib/projects'
 
 export interface ProjectCardProps {
     className?: string
+    thumbnail?: { file: string; alt: string; width: number; height: number }
     title: string
     tagline: string
     description: string
@@ -16,10 +18,14 @@ export interface ProjectCardProps {
 
 // The title is the only link and a ::after on it stretches over the whole card, so the card is one big
 // click target but a screen reader hears just the title as the link name (not the whole card's text).
-export function ProjectCard({className, title, tagline, description, stack, role, achievement, agentic, href}: ProjectCardProps) {
+export function ProjectCard({className, thumbnail, title, tagline, description, stack, role, achievement, agentic, href}: ProjectCardProps) {
     return (
         <article className={`project-card ${className ?? ''}`}>
             <div className='card-content'>
+                <div className='card-thumbnail'>
+                    {thumbnail && <img src={getProjectImageUrl(thumbnail.file)} alt={thumbnail.alt} width={thumbnail.width} height={thumbnail.height} />}
+                </div>
+                <div className='card-text'>
                 <div className='title-and-tag'>
                     <h3><Link className='project-card-link' to={href}>{title}</Link></h3>
                     <p className='project-card-tagline'>{tagline}</p>
@@ -33,6 +39,7 @@ export function ProjectCard({className, title, tagline, description, stack, role
                 )}
                 <p className='project-card-role'>{role}</p>
                 {achievement && <p className='project-card-achievement'>{achievement}</p>}
+                </div>
             </div>
         </article>
     )

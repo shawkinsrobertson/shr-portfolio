@@ -68,6 +68,9 @@ PR #1 (MDX experiment) and #2 (accessibility audit) are merged; **PR #3 (S1.1-S1
 
 ---
 
+
+> **Update 2026-11-23:** real screenshots and card thumbnails added for Shelby, SimpleSet, No Guts No Glory (images moved to `src/content/projects/case-study-img/`; `thumbnail` is now required to publish). Three headshots added (`headshot.jpg`, `-glass`, `-opossum`); per-theme swap not wired. Do Shit is hidden until it has a thumbnail. Still open: resume PDF, headshot crop/EXIF/licence, oversize `ngng-thumbnail.png`. See `daily-notes.md` 2026-11-23.
+
 ## Phase 0: Foundation (Nov 20-22)
 
 | Step | Work | Files | Proof (tests) |

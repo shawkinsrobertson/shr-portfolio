@@ -50,9 +50,19 @@ describe('ThemeSwitcher', () => {
 		await userEvent.click(trigger());
 
 		expect(trigger()).toHaveAttribute('aria-expanded', 'true');
-		expect(screen.getAllByRole('radio').map((r) => r.closest('label')?.textContent)).toEqual(['Light', 'Dark']);
+		expect(screen.getAllByRole('radio').map((r) => r.closest('label')?.textContent)).toEqual(['Light', 'Dark', 'Opossum']);
+		expect(screen.queryByRole('radio', { name: /glass/i })).not.toBeInTheDocument();
 		expect(screen.getByRole('radio', { name: 'Dark' })).toBeChecked();
-		expect(screen.queryByRole('radio', { name: /opossum|glass/i })).not.toBeInTheDocument();
+	});
+
+	it('applies and remembers the opossum theme', async () => {
+		document.documentElement.dataset.theme = 'dark';
+		render(<ThemeSwitcher />);
+		await userEvent.click(trigger());
+		await userEvent.click(screen.getByRole('radio', { name: 'Opossum' }));
+
+		expect(theme()).toBe('opossum');
+		expect(localStorage.getItem(STORAGE_KEY)).toBe('opossum');
 	});
 
 	it('applies, remembers, and relabels on the first selection', async () => {
@@ -120,9 +130,9 @@ describe('ThemeSwitcher', () => {
 		expect(theme()).toBe('light');
 	});
 
-	it('syncs when another tab changes the theme', () => {
+	it('syncs when another tab changes the theme', async () => {
 		render(<ThemeSwitcher />);
-		act(() => {
+		await act(async () => {
 			window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY, newValue: 'dark' }));
 		});
 

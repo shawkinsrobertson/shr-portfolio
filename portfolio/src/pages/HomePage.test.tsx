@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
@@ -53,5 +55,16 @@ describe('HomePage', () => {
 		const cards = within(list).getAllByRole('listitem').filter((li) => li.parentElement === list);
 
 		expect(cards).toHaveLength(getPublishedProjects().length);
+	});
+
+	it('lists the project cards in one vertical stack, one per row', () => {
+		renderHome();
+		const list = document.querySelector('.case-study-cards');
+
+		expect(list).not.toBeNull();
+		expect(list?.querySelectorAll(':scope > li').length).toBe(getPublishedProjects().length);
+		expect(readFileSync(resolve(process.cwd(), 'src/pages/HomePage.css'), 'utf8')).toMatch(
+			/\.case-study-cards\s*{[^}]*display:\s*flex;[^}]*flex-direction:\s*column/,
+		);
 	});
 });

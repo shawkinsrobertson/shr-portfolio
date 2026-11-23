@@ -1,4 +1,6 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ThemeSwitcher } from '../components/ThemeSwitcher/ThemeSwitcher';
 import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import { site, type SiteData } from '../data/site';
@@ -28,6 +30,36 @@ describe('BioPage', () => {
 
 		expect(photo).toHaveAttribute('width', String(site.headshot.width));
 		expect(photo).toHaveAttribute('height', String(site.headshot.height));
+	});
+
+	it.each([
+		['light', site.headshot.src],
+		['opossum', site.themeHeadshots?.opossum],
+	])('shows the %s theme portrait', (theme, expected) => {
+		document.documentElement.dataset.theme = theme;
+		renderBio();
+
+		expect(expected).toBeTruthy();
+		expect(screen.getByRole('img', { name: site.headshot.alt })).toHaveAttribute('src', expected);
+		delete document.documentElement.dataset.theme;
+	});
+
+	it('swaps the portrait when the theme changes while the page is open', async () => {
+		document.documentElement.dataset.theme = 'light';
+		render(
+			<MemoryRouter>
+				<ThemeSwitcher />
+				<BioPage />
+			</MemoryRouter>,
+		);
+		const photo = () => screen.getByRole('img', { name: site.headshot.alt });
+		expect(photo()).toHaveAttribute('src', site.headshot.src);
+
+		await userEvent.click(screen.getByRole('button', { name: /theme/i }));
+		await userEvent.click(screen.getByRole('radio', { name: 'Opossum' }));
+
+		await waitFor(() => expect(photo()).toHaveAttribute('src', site.themeHeadshots?.opossum));
+		delete document.documentElement.dataset.theme;
 	});
 
 	it('shows the business and personal sections, each under a heading for screen readers', () => {

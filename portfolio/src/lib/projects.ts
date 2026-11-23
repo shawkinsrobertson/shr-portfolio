@@ -24,6 +24,7 @@ export interface Project {
 	draft: boolean;
 	links?: { repo?: string; live?: string };
 	image?: ProjectImage;
+	thumbnail?: ProjectImage;
 }
 
 const KEBAB = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -64,6 +65,20 @@ export function validateFrontmatter(raw: unknown): string[] {
 			(image.height as number) > 0;
 		if (!ok) problems.push('image needs file, alt, and positive integer width and height');
 	}
+	if (r.thumbnail !== undefined) {
+		const image = r.thumbnail as Record<string, unknown> | null;
+		const ok =
+			typeof image === 'object' &&
+			image !== null &&
+			typeof image.file === 'string' &&
+			image.file !== '' &&
+			typeof image.alt === 'string' &&
+			Number.isInteger(image.width) &&
+			(image.width as number) > 0 &&
+			Number.isInteger(image.height) &&
+			(image.height as number) > 0;
+		if (!ok) problems.push('thumbnail needs file, alt, and positive integer width and height');
+	}
 
 	if (r.links !== undefined) {
 		const links = r.links as Record<string, unknown> | null;
@@ -88,7 +103,8 @@ export function meetsPublishBar(project: Project): boolean {
 		project.stack.length > 0 &&
 		filled(project.role) &&
 		filled(project.platform) &&
-		filled(project.image?.alt)
+		filled(project.image?.alt) &&
+		filled(project.thumbnail?.alt)
 	);
 }
 
@@ -101,7 +117,7 @@ export function selectPublished(projects: Project[]): Project[] {
 const modules = import.meta.glob<{ frontmatter: unknown; default: ComponentType<MDXProps> }>('../content/projects/*.mdx', {
 	eager: true,
 });
-const imageUrls = import.meta.glob<string>('../assets/project-img/*', { eager: true, query: '?url', import: 'default' });
+const imageUrls = import.meta.glob<string>('../content/projects/case-study-img/*', { eager: true, query: '?url', import: 'default' });
 
 /** Every project whose frontmatter is structurally valid, drafts included. */
 export function getAllProjects(): Project[] {
@@ -125,7 +141,8 @@ export function getAdjacentProjects(slug: string): { prev?: Project; next?: Proj
 
 export const projectPath = (slug: string) => `/projects/${slug}`;
 
-export const getProjectImageUrl = (file: string) => imageUrls[`../assets/project-img/${file}`];
+export const getProjectImageUrl = (file: string) => imageUrls[`../content/projects/case-study-img/${file}`];
+
 
 /** The project's MDX body as a component. */
 export const getProjectBody = (slug: string) => modules[`../content/projects/${slug}.mdx`]?.default;

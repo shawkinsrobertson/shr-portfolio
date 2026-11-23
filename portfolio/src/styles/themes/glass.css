@@ -1,0 +1,100 @@
+/* Glass: Figma gradient (129.86deg, #00052F > #9F3501 > navy > blue) with frosted surfaces on cards and nav.
+   The Figma gradient has two translucent stops, so a solid #00052F sits under it; --bg-start/mid/end are
+   the opaque equivalents contrast.test.ts uses as the worst-case stops (lightest: the #9F3501 orange).
+   Text tokens are lighter than the SPEC 6.2 proposals (#8D8D8D, #A9B4FF): those reach only 2.7:1 and 4.2:1 at
+   the orange stop, so text must pass straight on the gradient and the scrim is extra margin, not the proof. */
+:root[data-theme='glass'] {
+  --bg-start: #00052F;
+  --bg-mid: #9F3501;
+  --bg-end: #00108A;
+  --bg: linear-gradient(129.86deg, #00052F 22%, #9F3501 39%, rgba(0, 5, 47, 0.75) 68%, rgba(0, 25, 210, 0.56) 91%), #00052F;
+  --text-primary: #FBFBFB;
+  --text-secondary: #DADDF0;
+  /* Fill and text differ here (like opossum): the fill is the Figma #0019D2 behind a white label; text, links
+     and rings use a light tint that stays readable on the orange stop. */
+  --accent: #0019D2;
+  --accent-fill: var(--accent);
+  --accent-contrast: #FBFBFB;
+  --accent-fill-hover: #1A33E0;
+  --accent-text: #DCE1FF;
+  --focus: #DCE1FF;
+  --accent-bg: rgba(220, 225, 255, 0.10);
+  --accent-border: #DCE1FF;
+  --award: #DAA520;
+  --award-contrast: #232323;
+  --border: #FBFBFB;
+  --code-bg: rgba(0, 5, 47, 0.55);
+  --social-bg: rgba(0, 5, 47, 0.4);
+
+  /* Frosted surface pieces. The scrim keeps text legible over whatever is behind the blur; the sheen is the
+     Figma white highlight, capped at 20% white (--glass-sheen-max) in the contrast test. */
+  --glass-scrim: rgba(0, 5, 47, 0.55);
+  --glass-sheen-max: rgba(255, 255, 255, 0.2);
+  --glass-opaque: #0B1245;
+  --glass-blur: blur(40px);
+  --radius-card: 22px;
+  --shadow: rgba(0, 0, 0, 0.13) 0 1px 2px, rgba(0, 0, 0, 0.27) 0 14px 42px -11px,
+    inset 0 -1px 0 rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.47), inset 0 0 16px rgba(0, 0, 0, 0.08);
+
+  color-scheme: dark;
+}
+
+/* The gradient is anchored to the viewport so it does not restart on each element or seam on long pages. */
+:root[data-theme='glass'],
+:root[data-theme='glass'] body {
+  background-attachment: fixed;
+}
+
+/* backdrop-filter only on cards and the nav (never full-viewport layers; mobile performance, SPEC 6.6.3). */
+:root[data-theme='glass'] .project-card,
+:root[data-theme='glass'] .site-header,
+:root[data-theme='glass'] .site-header nav,
+:root[data-theme='glass'] .theme-switcher-panel {
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 0%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%),
+    var(--glass-scrim);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+}
+
+/* The sticky header spans the page, so it keeps no side rims or rounded corners. */
+:root[data-theme='glass'] .site-header {
+  border-width: 0 0 1px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Fallbacks: an opaque surface with the same text tokens (text contrast is tested on it). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root[data-theme='glass'] .project-card,
+  :root[data-theme='glass'] .site-header,
+  :root[data-theme='glass'] .site-header nav,
+  :root[data-theme='glass'] .theme-switcher-panel {
+    background: var(--glass-opaque);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-theme='glass'] .project-card,
+  :root[data-theme='glass'] .site-header,
+  :root[data-theme='glass'] .site-header nav,
+  :root[data-theme='glass'] .theme-switcher-panel {
+    background: var(--glass-opaque);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :root[data-theme='glass'] .project-card,
+  :root[data-theme='glass'] .site-header,
+  :root[data-theme='glass'] .site-header nav,
+  :root[data-theme='glass'] .theme-switcher-panel {
+    background: Canvas;
+    border-color: CanvasText;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

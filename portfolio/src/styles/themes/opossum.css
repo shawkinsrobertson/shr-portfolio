@@ -1,0 +1,39 @@
+/* Opossum: warm olive-to-brown gradient (#505200 to #5E3A00) with an orange accent.
+   Owner decision (2026-11-23, option b): the accent #FF914E is used for fills, focus rings, and borders
+   (3:1 non-text rule). It is too dim for small text on the gradient (3.7:1 at the worst stop), so
+   --accent-text is a lighter tint of it, #FFC8A4 (4.7:1 on the tinted stack pills at the worst stop). This is the one theme where text and fill differ;
+   contrast.test.ts makes the exception explicit and checks every pair against BOTH gradient stops. */
+:root[data-theme='opossum'] {
+  --bg-start: #505200;
+  --bg-end: #5E3A00;
+  --bg: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  --text-primary: #FBFBFB;
+  --text-secondary: #F5B94A;
+  --accent: #FF914E;
+  --accent-fill: var(--accent);
+  --accent-contrast: #232323;
+  --accent-fill-hover: #FFA877;
+  --accent-text: #FFC8A4;
+  --focus: var(--accent);
+  --accent-bg: rgba(255, 145, 78, 0.12);
+  --accent-border: var(--accent);
+  --award: #DAA520;
+  --award-contrast: #232323;
+  --border: #8A7A3A;
+  --code-bg: rgba(0, 0, 0, 0.28);
+  --social-bg: rgba(0, 0, 0, 0.2);
+  --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+  color-scheme: dark;
+}
+
+/* Anchor the gradient to the viewport so the header, cards, and page all show one continuous gradient
+   instead of each element restarting it. */
+:root[data-theme='opossum'],
+:root[data-theme='opossum'] body,
+:root[data-theme='opossum'] .site-header,
+:root[data-theme='opossum'] .site-header nav,
+:root[data-theme='opossum'] .project-card,
+:root[data-theme='opossum'] .theme-switcher-panel {
+  background-attachment: fixed;
+}

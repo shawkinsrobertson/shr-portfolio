@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useSyncExternalStore } from 'react';
 import {
 	STORAGE_KEY,
 	applyTheme,
@@ -18,11 +18,18 @@ function currentTheme(): ThemeId {
 	return resolveTheme(readStoredTheme(), prefersDarkQuery()?.matches ?? false);
 }
 
+// The applied theme lives on <html data-theme>, so every component that calls useTheme reads the same
+// value. (Separate useState copies would not see each other's changes, e.g. the picker and the bio page.)
+function subscribe(onChange: () => void) {
+	const observer = new MutationObserver(onChange);
+	observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+	return () => observer.disconnect();
+}
+
 export function useTheme() {
-	const [theme, setThemeState] = useState<ThemeId>(currentTheme);
+	const theme = useSyncExternalStore(subscribe, currentTheme);
 
 	const show = useCallback((id: ThemeId) => {
-		setThemeState(id);
 		applyTheme(id);
 	}, []);
 

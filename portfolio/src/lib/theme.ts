@@ -4,12 +4,11 @@ export const STORAGE_KEY = 'theme';
 export const THEMES = [
 	{ id: 'light', label: 'Light', enabled: true, color: '#FBFBFB' },
 	{ id: 'dark', label: 'Dark', enabled: true, color: '#232323' },
-	{ id: 'opossum', label: 'Opossum', enabled: false, color: '#505200' },
+	{ id: 'opossum', label: 'Opossum', enabled: true, color: '#505200' },
 	{ id: 'glass', label: 'Glass', enabled: false, color: '#00052F' },
 ] as const;
 
 export type ThemeId = (typeof THEMES)[number]['id'];
-export type EnabledThemeId = 'light' | 'dark';
 
 export const enabledThemes = () => THEMES.filter((theme) => theme.enabled);
 

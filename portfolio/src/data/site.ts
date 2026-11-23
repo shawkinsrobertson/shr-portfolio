@@ -1,4 +1,7 @@
-import headshotUrl from '../assets/headshot.png';
+import headshotUrl from '../assets/headshot.jpg';
+import headshotOpossumUrl from '../assets/headshot-opossum.png';
+import headshotGlassUrl from '../assets/headshot-glass.png';
+import type { ThemeId } from '../lib/theme';
 
 export interface SiteData {
 	name: string;
@@ -13,6 +16,8 @@ export interface SiteData {
 	personal: string;
 	resume: { href: string };
 	headshot: { src: string; alt: string; width: number; height: number };
+	/** Optional per-theme portraits; any theme not listed uses `headshot.src` (same alt text and size). */
+	themeHeadshots?: Partial<Record<ThemeId, string>>;
 }
 
 /** The URL if it is a well-formed https URL, otherwise undefined. Used for any link that may not be ready. */
@@ -37,4 +42,5 @@ export const site: SiteData = {
 		width: 400,
 		height: 400,
 	},
+		themeHeadshots: { opossum: headshotOpossumUrl, glass: headshotGlassUrl },
 };

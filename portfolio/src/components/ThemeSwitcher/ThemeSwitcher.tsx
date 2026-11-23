@@ -1,13 +1,22 @@
 import './ThemeSwitcher.css';
 import { useEffect, useId, useRef, useState } from 'react';
-import { LuGem, LuMoon, LuPawPrint, LuSun } from 'react-icons/lu';
+import { LuGem, LuMoon, LuSun } from 'react-icons/lu';
+import opossumUrl from '../../assets/opossum.png';
 import { THEMES, enabledThemes, type ThemeId } from '../../lib/theme';
 import { useTheme } from '../../lib/useTheme';
+
+// The opossum line art is dark, so it sits on a light chip to stay visible on every theme's background.
+// Decorative (alt=""): the visible theme name next to it is the accessible label.
+const OpossumIcon = () => (
+	<span className="opossum-icon">
+		<img src={opossumUrl} alt="" width={24} height={24} />
+	</span>
+);
 
 const ICONS: Record<ThemeId, React.ComponentType> = {
 	light: LuSun,
 	dark: LuMoon,
-	opossum: LuPawPrint,
+	opossum: OpossumIcon,
 	glass: LuGem,
 };
 

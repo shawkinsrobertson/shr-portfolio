@@ -22,12 +22,13 @@ export function HomePage() {
           {projects.map((project) =>(
             <li key={project.slug}>
               <ProjectCard
-                 title={project.title}
-                 tagline={project.tagline}
-                 description={project.description}
-                 stack={project.stack}
-                 role={project.role}
-                 href={projectPath(project.slug)}
+                thumbnail={project.thumbnail}
+                title={project.title}
+                tagline={project.tagline}
+                description={project.description}
+                stack={project.stack}
+                role={project.role}
+                href={projectPath(project.slug)}
                  agentic={project.agentic}
                  achievement={project.achievement}  />
             </li>

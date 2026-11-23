@@ -190,3 +190,118 @@ Day 1. Started from "review INTENT.md and ask questions" and ended with Phase 0 
 - Domain name and registrar/DNS access (Nov 26); Open Graph image 1200x630 (Nov 27); enable Cloudflare Web Analytics (Nov 28).
 
 **Next for me:** S2.1 opossum (after the accent decision), then S2.2 glass, ahead of the Nov 27 cut line. Then Phase 3: self-hosted fonts, image optimization (including the unused thumbs), SEO tags and sitemap, headers and CSP, Lighthouse CI.
+
+# 2026-11-23
+
+Day 2 (resumed after the weekend). Owner added real case study images, card thumbnails, and headshots; I tested those changes and fixed the tests they broke. Opossum (S2.1) is next and waits on the accent decision.
+
+## build
+
+**Done by you (uncommitted on `mdx-experiment` at start of day)**
+- Real screenshots in `src/content/projects/case-study-img/` for Shelby (4), SimpleSet (3 + desktop builder), No Guts No Glory (3); a thumbnail for each of the three.
+- `ProjectCard` renders an optional `thumbnail` (`.card-thumbnail`, max 300px, `object-fit: cover`); `HomePage` passes it through.
+- `projects.ts`: new optional `thumbnail` frontmatter field, validated like `image`; `meetsPublishBar` now requires `thumbnail.alt`. Image glob and `getProjectImageUrl` moved from `src/assets/project-img/` to `src/content/projects/case-study-img/`.
+- Case study header image: `object-fit: contain`, `max-height: 800px` (portrait phone shots no longer cropped).
+- `site.ts` headshot is now `headshot.jpg`. `headshot-glass.png` and `headshot-opossum.png` added to `src/assets/` (not wired yet).
+- No Guts No Glory: stack `[Kotlin]`, `draft: false`, so it now publishes.
+
+**Done by me**
+- Ran tsc, oxlint, tests, build, prelaunch against your changes (results below).
+- Fixed 8 stale tests and fixtures broken by the image move and the new thumbnail requirement (see test-outputs). Corrected the thumbnail validation message (it said "image needs..."). Updated the `Figure` doc comments to the new image folder.
+
+## decisions
+
+**Made by you**
+| Decision | Notes |
+|---|---|
+| Card thumbnails are required to publish | `meetsPublishBar` checks `thumbnail.alt` |
+| Case study images live beside the content in `case-study-img/` | Replaces `src/assets/project-img/` |
+| Three headshots: `headshot.jpg` (light/dark), `-glass`, `-opossum` | Per-theme swap still to build |
+| No Guts No Glory publishes with stack `[Kotlin]` | |
+
+**Made by me, for your review**
+| Decision | Why |
+|---|---|
+| Test fixtures use Shelby's files and the Shelby page for route tests | Do Shit no longer publishes, so it cannot be the example |
+| Left 4 content tests failing on purpose | They report Do Shit, Scavenger Hunt, Scream Recorder still use placeholder images (see bugs) |
+
+## trade-offs
+
+| Choice | What we gain | What it costs |
+|---|---|---|
+| Thumbnail required to publish | No card goes live with an empty image box | Do Shit disappeared from the site until it has a thumbnail |
+| Card thumbnail `object-fit: cover` with 300px cap | Even card heights | Crops tall or wide shots; use purpose-made square thumbnails |
+| Images beside content instead of `src/assets` | Easy to find with the case study | Vite hashes and ships every file in the folder, used or not |
+
+## bugs
+
+**Found, open**
+- **Do Shit disappeared from the home page and `/projects/todo-app` 404s.** `draft: false` but no `thumbnail`, so it misses the publish bar. Add a thumbnail or set `draft: true`.
+- `ngng-thumbnail.png` is 3600x4500 and **6.3 MB** in `dist`; it is displayed at 300x300. Resize to about 600x600 (or 2x of the display size), ideally WebP/AVIF.
+- `headshot.jpg` is 2121x1414 (not square), 765 KB, and its EXIF contains a photographer copyright string (`@LeannCrosby allrightsreserved`). SPEC wants a square, EXIF-stripped headshot. Check licence and credit, then crop, resize to about 800 px, strip metadata.
+- Thumbnail `alt` text is "shelby thumbnail" style. The card heading already names the project, so these should probably be `alt=""` (decorative) or describe the image. The validator currently forces non-empty alt.
+- Case study image dimensions in frontmatter (400x800, 450x800) do not match the files (1236x2745, 945x2048). Aspect ratios are close but not exact (about 0.45 vs 0.5), which can cause layout shift. `simpleset-thumbnail.png` is 300x400, not square like its declared 300x300.
+- Old `src/assets/project-img/` (11 placeholders) is no longer read by the glob, but Do Shit, Scavenger Hunt, and Scream Recorder still reference those files.
+- The `ProjectCard` import line has a stray leading space (cosmetic).
+
+## test-outputs
+
+**Before my fixes:** 12 failed, 250 passed (262).
+```
+ Test Files  5 failed | 14 passed (19)
+      Tests  12 failed | 250 passed (262)
+```
+Causes: the moved image folder (Figure, content, route and CaseStudyPage fixtures), the thumbnail requirement (fixtures, Do Shit hidden), No Guts No Glory now published (route test expected a 404).
+
+**After my fixes:** 4 failed, 257 passed (261). All 4 failures are real content problems, not test bugs:
+```
+ content > scavenger-hunt > points at an image file that exists
+ content > scream-recorder > points at an image file that exists
+ content > todo-app > points at an image file that exists
+ content > todo-app > has at least one section when published
+```
+`tsc -b` clean, `oxlint` clean, `npm run build` succeeds. Build: JS 301.03 kB (95.10 kB gzip), CSS 15.67 kB. `dist` now holds about 9 MB of images (mostly the one 6.3 MB thumbnail).
+`npm run prelaunch`: still 3 failing on purpose (resume PDF, headshot and screenshots checks).
+
+**Not run today:** Lighthouse, screen reader, visual check in the browser, CI on PR #3.
+
+## still-need
+
+*Current phase: Gate G1 content, then Phase 2 (opossum, glass).*
+
+**From you**
+- **Opossum accent decision** (PLAN S2.1): one accent `#FFB080` everywhere (recommended) or keep `#FF914E` for fills/rings with a small-text exception.
+- Do Shit: thumbnail and real screenshot (or set to draft). Scavenger Hunt and Scream Recorder: keep as drafts or supply content.
+- Resume PDF (`public/resume/seamus-robertson-resume.pdf`), still a placeholder.
+- Headshot: confirm the photo licence, then crop square and strip metadata. Provide real alt text.
+- Decide where the extra screenshots go in each case study (design guidance given in chat; see PLAN S1.5 note).
+- Resize `ngng-thumbnail.png`.
+
+**Next for me**
+- Opossum theme (S2.1) once the accent is chosen; wire per-theme headshot (`headshot-opossum`, later `headshot-glass`); then glass (S2.2).
+
+### Update, later 2026-11-23
+
+- **Done by me:** card thumbnails fixed-square (160px beside text above 600px, up to 240px stacked on phones) with new alt text; cards stack vertically at full width; thin border and shadow on case study images; `Figure frame="browser"` (CSS-only window bar); **opossum theme built and enabled** (`themes/opossum.css`, `theme-init.js` allow-list, picker), per-theme headshot on the bio page (`themeHeadshots`).
+- **Decision (you):** opossum accent option (b): `#FF914E` for fills, rings, borders; small text uses a lighter tint. D17/D18 exception recorded in `opossum.css` and `contrast.test.ts`.
+- **Deviation (me):** planned small-text accent `#FFB080` measured 3.92:1 on the 12% tinted stack pills at the dark-olive gradient stop, so I used `#FFC8A4` (4.68:1 worst case). Plain text on the gradient passed either way.
+- **Bug fixed:** `Nav.css` used `background-color: var(--bg)`, which cannot hold a gradient, so the sticky header would have been transparent in opossum. Now `background`, with `background-attachment: fixed` so header, cards and page share one gradient.
+- **Tests:** 277 total, 273 pass; the same 4 content failures (backstage projects: Do Shit, Scavenger Hunt, Scream Recorder). New: opossum contrast against both stops, picker, headshot swap, browser frame, stacked cards.
+- **Open:** `headshot-opossum.png` is 2.4 MB (glass 1.1 MB); opossum visuals not yet checked in a browser or with Lighthouse; opossum `--border` is about 1.9:1 to 2.4:1 on the gradient (decorative, like light's border); glass still disabled.
+
+### Update, end of 2026-11-23: glass built (S2.2)
+
+- **Done by me:** `themes/glass.css` (Figma gradient over a solid `#00052F`, 22px radius, 40px blur, scrim plus sheen on cards, header, nav and theme panel only; fallbacks for no `backdrop-filter`, `prefers-reduced-transparency`, `forced-colors`); glass enabled in the picker and the no-flash script; glass headshot wired. All four themes are now enabled (the cut line was Nov 27).
+- **Also today:** opossum icon (PNG on a light chip) in the picker; `useTheme` now reads `<html data-theme>` through `useSyncExternalStore` so the bio headshot changes the moment the theme does (it kept separate state per component before); project cards are two equal halves above 600px (thumbnail up to 600px tall), stacked below.
+- **Deviation (me):** SPEC 6.2 proposed glass text tokens `#8D8D8D` (secondary) and `#A9B4FF` (accent text). Against the Figma orange stop `#9F3501` they measure about 2.7:1 and 4.2:1, so they fail on the bare gradient. Used `#DADDF0` (5.22:1 worst case) and `#DCE1FF` (5.45:1; 4.65:1 on the 10% tinted pills). Text now passes directly on the gradient; the scrim is extra margin. Glass accent: fill `#0019D2` with a white label (9.81:1), light tint for text, links, rings and borders, same pattern as opossum.
+- **Tests:** 298 total, 294 pass; the same 4 content failures (backstage projects). New glass tests: three text tokens on scrim plus sheen over each of three stops, on the opaque fallback, accent split, backdrop-filter limited to cards/nav, fallbacks present.
+- **Open:** glass not yet checked in a browser (the Figma gradient plus the 40px blur on a long page is the likeliest visual and Lighthouse miss on mobile); jsdom cannot compute contrast, so the real rendered check is still manual; `headshot-glass.png` (1.1 MB) and `headshot-opossum.png` (2.4 MB) need resizing; the card border in glass is solid `#FBFBFB` per Figma and may look heavy.
+- **Next:** your image resize and replace (tomorrow), then Phase 3: self-hosted fonts, image optimization, SEO tags, headers/CSP, Lighthouse.
+
+### Update, late 2026-11-23: glass disabled, mobile menu fix
+
+- **Decision (you):** glass is disabled (`enabled: false`, removed from the no-flash allow-list) while you revisit the Figma. `glass.css`, its tests and the glass headshot stay in the repo. Opossum is the only extra theme live. D16 outcome: light, dark, opossum ship; glass waits.
+- **Notes for the glass revisit:** the header had a border (the glass rule gave `.site-header` a bottom rim) and the dropdown reused the page gradient instead of a frosted surface; neither is fixed because glass is off. Contrast results and the lighter text tokens are in the entry above.
+- **Bug fixed:** on phones the project dropdown sat in the page flow, so opening it grew the sticky header and pushed the whole page down. It now floats full-width under the header (`position: absolute` anchored to the header), so nothing moves. Not checked in a browser or on a device yet. Side effect: the open list now covers content instead of displacing it, which is how the desktop dropdown already works.
+- **Tests:** 296 total, 292 pass; the same 4 content failures (backstage projects). Removed the glass picker and glass portrait tests, since the theme is off.
+

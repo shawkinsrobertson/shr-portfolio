@@ -20,6 +20,67 @@
     gap: 12px;
 }
 
+
+.card-thumbnail {
+    /* One fixed square for every card, whatever the source image's shape; cover center-crops to fit. */
+    box-sizing: border-box;
+    flex-shrink: 0;
+    align-self: center;
+    width: min(100%, 240px);
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+}
+
+.card-thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+}
+
+/* Larger than a phone: thumbnail fills the left half of the card, text the right half, left aligned.
+   The thumbnail stays square and grows with the card, up to 450px tall; beyond that it is cropped, not stretched. */
+@media screen and (min-width: 601px) {
+    .project-card {
+        max-height: 450px;
+    }
+    .card-content {
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .card-thumbnail {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+        max-height: 350px;
+    }
+
+    .card-text {
+        flex: 1 1 0;
+        text-align: left;
+    }
+
+    .project-card-stack {
+        padding: 0;
+        justify-content: flex-start;
+    }
+
+    .project-card-achievement {
+        align-self: flex-start;
+    }
+}
+
 .title-and-tag {
     display: flex;
     flex-direction: column;

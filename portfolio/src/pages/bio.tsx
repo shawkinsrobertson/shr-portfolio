@@ -1,10 +1,13 @@
 import './bio.css'
 import { SafeLink } from '../components/mdx/SafeLink';
+import { useTheme } from '../lib/useTheme';
 import { httpsUrl, site, type SiteData } from '../data/site';
 
 
 export const BioPage = ({ data = site }: { data?: SiteData }) => {
+    const { theme } = useTheme();
     const substack = httpsUrl(data.substack);
+    const headshotSrc = data.themeHeadshots?.[theme] ?? data.headshot.src;
 
     return (
         <div className="bio-page">
@@ -13,7 +16,7 @@ export const BioPage = ({ data = site }: { data?: SiteData }) => {
                     <div className='bio-img'>
                         <img
                             className='bio-headshot'
-                            src={data.headshot.src}
+                            src={headshotSrc}
                             alt={data.headshot.alt}
                             width={data.headshot.width}
                             height={data.headshot.height}

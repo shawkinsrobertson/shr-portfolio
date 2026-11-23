@@ -19,7 +19,8 @@ const project: Project = {
 	achievement: 'Top 100 at a hackathon',
 	order: 10,
 	draft: false,
-	image: { file: 'feature-01.png', alt: 'The sample home screen', width: 3200, height: 1800 },
+	image: { file: 'shelby-dashboard.png', alt: 'The sample home screen', width: 3200, height: 1800 },
+	thumbnail: { file: "shelby-thumbnail.png", alt: "Sample app thumbnail", width: 300, height: 300 },
 	links: { repo: 'https://github.com/example/sample', live: 'https://sample.example.com' },
 };
 

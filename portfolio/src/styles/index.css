@@ -1,5 +1,7 @@
 @import './tokens.css';
 @import './themes/light.css';
 @import './themes/dark.css';
+@import './themes/opossum.css';
+@import './themes/glass.css';
 @import './base.css';
 @import './legacy-glass.css';

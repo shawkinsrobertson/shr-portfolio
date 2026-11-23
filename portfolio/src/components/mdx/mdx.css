@@ -7,6 +7,8 @@
     width: 100%;
     height: auto;
     border-radius: 8px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
 }
 
 .figure figcaption {
@@ -61,4 +63,39 @@
     font-family: var(--heading);
     font-weight: 500;
     font-size: 1.2rem;
+}
+
+/* Simple responsive browser window: a bar with three dots above the screenshot. Pure CSS, no extra image. */
+.browser-frame {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--code-bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.browser-bar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-secondary);
+    opacity: 0.6;
+}
+
+/* The frame supplies the border, radius, and shadow, so the image inside does not repeat them. */
+.browser-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
 }

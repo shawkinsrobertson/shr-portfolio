@@ -21,7 +21,8 @@ const complete: Project = {
 	platform: 'Web',
 	order: 10,
 	draft: false,
-	image: { file: 'feature-01.png', alt: 'The sample app home screen', width: 3200, height: 1800 },
+	image: { file: 'shelby-dashboard.png', alt: 'The sample app home screen', width: 3200, height: 1800 },
+	thumbnail: { file: "shelby-thumbnail.png", alt: "Sample app thumbnail", width: 300, height: 300 },
 };
 
 describe('validateFrontmatter', () => {
@@ -114,7 +115,7 @@ describe('the real content', () => {
 	});
 
 	it('finds a published project by slug', () => {
-		expect(getProject('todo-app')?.title).toBe('Do Shit');
+		expect(getProject('shelby')?.title).toBe('Shelby');
 	});
 
 	it('does not find unknown or draft slugs', () => {

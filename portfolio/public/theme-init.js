@@ -1,7 +1,7 @@
 // Runs before first paint (blocking, same-origin so the CSP needs no inline allowance).
 // Keep the allow-list in sync with `enabled` themes in src/lib/theme.ts; theme-init.test.ts enforces it.
 (function () {
-	var enabled = ['light', 'dark'];
+	var enabled = ['light', 'dark', 'opossum'];
 	var stored = null;
 	try {
 		stored = localStorage.getItem('theme');

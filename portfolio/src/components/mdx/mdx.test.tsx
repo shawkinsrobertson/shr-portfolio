@@ -67,7 +67,7 @@ describe('links', () => {
 
 describe('Figure', () => {
 	it('renders an image with its alt text, size, and caption', async () => {
-		await renderMdx('<Figure file="feature-01.png" alt="The task list" width={3200} height={1800} caption="Task list" />');
+		await renderMdx('<Figure file="shelby-dashboard.png" alt="The task list" width={3200} height={1800} caption="Task list" />');
 		const figure = screen.getByRole('figure');
 		const img = within(figure).getByRole('img', { name: 'The task list' });
 
@@ -77,11 +77,20 @@ describe('Figure', () => {
 		expect(within(figure).getByText('Task list')).toBeInTheDocument();
 	});
 
+	it('wraps the image in a browser frame, hiding the decorative bar from screen readers', async () => {
+		await renderMdx('<Figure file="shelby-dashboard.png" alt="Desktop builder" width={10} height={10} frame="browser" />');
+		const figure = screen.getByRole('figure');
+
+		expect(within(figure).getByRole('img', { name: 'Desktop builder' })).toBeInTheDocument();
+		expect(figure.querySelector('.browser-bar')).toHaveAttribute('aria-hidden', 'true');
+		expect(figure.querySelectorAll('img')).toHaveLength(1);
+	});
+
 	it.each([['missing', ''], ['blank', ' alt="  "'], ['empty', ' alt=""']])(
 		'renders nothing, and reports it, when alt is %s',
 		async (_name, altAttr) => {
 			const error = vi.spyOn(console, 'error').mockImplementation(() => {});
-			await renderMdx(`<Figure file="feature-01.png"${altAttr} width={10} height={10} />`);
+			await renderMdx(`<Figure file="shelby-dashboard.png"${altAttr} width={10} height={10} />`);
 
 			expect(screen.queryByRole('img')).not.toBeInTheDocument();
 			expect(error).toHaveBeenCalledWith(expect.stringContaining('alt'));
@@ -181,7 +190,7 @@ describe('accessibility', () => {
 				'#### Detail',
 				'<Callout type="bug">Careful</Callout>',
 				'<Decision>\n\nWe chose X.\n\n<Callout type="tradeoff">At a cost.</Callout>\n\n</Decision>',
-				'<Figure file="feature-01.png" alt="A picture" width={10} height={10} caption="Caption" />',
+				'<Figure file="shelby-dashboard.png" alt="A picture" width={10} height={10} caption="Caption" />',
 				'```ts\nconst x = 1;\n```',
 			].join('\n\n'),
 		);
