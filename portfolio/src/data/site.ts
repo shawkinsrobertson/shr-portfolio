@@ -1,4 +1,4 @@
-import headshotUrl from '../assets/headshot-placeholder.svg';
+import headshotUrl from '../assets/headshot.png';
 
 export interface SiteData {
 	name: string;
