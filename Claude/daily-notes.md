@@ -305,3 +305,19 @@ Causes: the moved image folder (Figure, content, route and CaseStudyPage fixture
 - **Bug fixed:** on phones the project dropdown sat in the page flow, so opening it grew the sticky header and pushed the whole page down. It now floats full-width under the header (`position: absolute` anchored to the header), so nothing moves. Not checked in a browser or on a device yet. Side effect: the open list now covers content instead of displacing it, which is how the desktop dropdown already works.
 - **Tests:** 296 total, 292 pass; the same 4 content failures (backstage projects). Removed the glass picker and glass portrait tests, since the theme is off.
 
+
+### End of day, 2026-11-23
+
+- **Shipped:** all of today's work is committed (`cea1a01`) and pushed to `main` (`f4a904d`). `origin/main` was merged into `mdx-experiment` first, no conflicts. Not checked: CI and the Cloudflare deploy.
+- **Live themes:** light, dark, opossum. Glass is built but disabled until the Figma revisit (header border, dropdown surface).
+- **Not committed:** `src/assets/opossum-white.png` (yours, untracked, not yet used).
+- **Known red:** 4 content tests fail for the backstage projects (Do Shit, Scavenger Hunt, Scream Recorder); CI on `main` may show red.
+
+**Outstanding (tomorrow)**
+- Resize and replace images: `ngng-thumbnail.png` (6.3 MB, to about 1200px), `simpleset-thumbnail.png` (300x400, needs about 1200px square), `headshot-opossum.png` (2.4 MB), `headshot-glass.png` (1.1 MB).
+- Headshot: confirm the photo licence, crop square, strip EXIF (it carries a photographer copyright string), real alt text.
+- Do Shit: thumbnail and screenshots, or keep as draft. Resume PDF is still a placeholder.
+- Place the extra screenshots in the case studies (phone shots: border and shadow done; SimpleSet desktop shot: `<Figure frame="browser">`).
+- Browser pass on opossum and the mobile dropdown fix; decide whether the row card layout should start at 768px instead of 601px.
+- Glass: revisit Figma, then re-enable (`enabled: true` in `theme.ts` and `theme-init.js`).
+- Then Phase 3: self-hosted fonts, image optimization, SEO, headers and CSP, Lighthouse.
