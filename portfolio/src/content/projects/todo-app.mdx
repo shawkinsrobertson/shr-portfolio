@@ -18,17 +18,22 @@ image:
   height: 1800
 ---
 
-### What It Is
-
-A responsive web application that uses CRUD and local storage to let users create and organize tasks, lists, and projects.
-
-### Features
-
-- Dedicated project and list creation
-- Search across projects, tasks, and lists
-- Sort A-Z and by due date, first to last
-- Subtasks
-
 ### Build Process
 
-I'm responsible for planning, design, and building. This is my first hand-coded application.
+I took a to-do app workshop from FreeCodeCamp.org and expanded it to a full web application. The original workshop logic was simple, with a single task form/modal that stored form data to localStorage and rendered a single task list to the DOM. I wanted something that had more organization and retrieval features; namely, search, sort, and the ability to create and organize projects and lists.
+
+#### Data
+I decided to create separate storage arrays for projects and lists for easy filtering, comparison, and batch actions for tasks belonging to a particular task or list. It also allowed me to store information that was project or list unique without cluttering up task objects. 
+
+
+#### The DOM and Rendering
+Rendering tasks in their different parent containers required a few factories that created DOM elements based on rendering environment and task type. This reduced repeated logic and simplified handling the state changes between the primary task containers, projects, and lists.
+
+
+### What I Learned
+Forcing myself to create an app that is constantly rendering an re-rendering specific parts of the DOM without React gave me a new appreciation for components and served as a refresher for how those things work under the hood. 
+
+
+### What's Next
+- Sorting and search inside of projects and lists
+- Drag and drop to reorder tasks
